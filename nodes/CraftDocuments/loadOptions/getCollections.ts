@@ -7,13 +7,10 @@ import type { ILoadOptionsFunctions, INodePropertyOptions } from 'n8n-workflow';
 import { craftApiRequest } from '../shared/transport';
 
 interface CollectionItem {
-	key: string;
+	id: string;
 	name: string;
+	itemCount?: number;
 	documentId?: string;
-	schema?: {
-		name: string;
-		properties: unknown[];
-	};
 }
 
 interface CollectionsResponse {
@@ -41,11 +38,11 @@ export async function getCollections(
 		}
 
 		return response.items.map((collection) => ({
-			name: collection.name || `Collection ${collection.key}`,
-			value: collection.key,
+			name: collection.name || `Collection ${collection.id}`,
+			value: collection.id,
 			description: collection.documentId
 				? `In document: ${collection.documentId}`
-				: `ID: ${collection.key}`,
+				: `ID: ${collection.id}`,
 		}));
 	} catch {
 		// Return empty array on error - n8n will show "No options available"
