@@ -1,4 +1,5 @@
 import type {
+	IAuthenticateGeneric,
 	Icon,
 	ICredentialTestRequest,
 	ICredentialType,
@@ -25,17 +26,35 @@ export class CraftDocumentsApi implements ICredentialType {
 			description:
 				'Your Connect API URL from Craft. Go to Settings → Connect → Collections & Docs to get this URL.',
 		},
+		{
+			displayName: 'API Key',
+			name: 'apiKey',
+			type: 'string',
+			typeOptions: { password: true },
+			default: '',
+			required: true,
+			description:
+				'Your Craft Connect API key. Sent as a Bearer token in the Authorization header. In Craft: Settings → Connect → your connection → API Key.',
+		},
 	];
 
-	// No authenticate block needed - the API URL itself IS the authentication
-	// The URL contains the unique identifier that grants access
+	// Authentication is a separate Bearer token (the API URL no longer carries it).
+	// n8n applies this block to every declarative request AND to the credential test below.
+	authenticate: IAuthenticateGeneric = {
+		type: 'generic',
+		properties: {
+			headers: {
+				Authorization: '=Bearer {{$credentials.apiKey}}',
+			},
+		},
+	};
 
-	// Use /documents endpoint for credential test - it always returns 200
-	// This endpoint lists all documents and is specific to Multi-Document API
+	// Credential test: GET /connection is a lightweight validity check that returns
+	// space metadata. Uniform across both connection types and cheaper than listing.
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: '={{$credentials.apiUrl}}',
-			url: '/documents',
+			url: '/connection',
 			method: 'GET',
 		},
 	};
