@@ -42,7 +42,9 @@ export async function craftApiRequest(
 	};
 
 	try {
-		return await this.helpers.httpRequest(options);
+		// httpRequestWithAuthentication applies the credential's `authenticate` block
+		// (Bearer token), so loadOptions dropdowns are authenticated like the main operations.
+		return await this.helpers.httpRequestWithAuthentication.call(this, 'craftDocumentsApi', options);
 	} catch (error: unknown) {
 		const errorMessage = error instanceof Error ? error.message : 'Unknown error';
 		const httpError = error as { response?: { status?: number; body?: unknown } };

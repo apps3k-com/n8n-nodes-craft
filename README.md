@@ -38,13 +38,14 @@ the difference between the two nodes is addressing: daily notes use dates, docum
 
 ## authentication
 
-no tokens, no OAuth. Craft's Connect API embeds the auth in the URL itself.
+two parts: a connection URL plus a separate API key (sent as a Bearer token). no OAuth.
 
 1. in Craft, go to Settings > Connect
 2. grab the API URL (looks like `https://connect.craft.do/links/{UUID}/api/v1`)
-3. paste it into the n8n credential
+3. grab the API key for that connection
+4. paste both into the n8n credential — **API URL** and **API Key**
 
-that's the entire auth setup. the UUID in the URL is the access grant.
+the key is stored as a secret and sent as `Authorization: Bearer <key>` on every request.
 
 ## usage
 
