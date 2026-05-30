@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-05-30
+
+### Added
+
+- **Schema-driven field mapping for collection items** — *Add Items* and *Update Items* now use a typed Resource Mapper instead of raw JSON. Pick a collection and its fields render as native inputs (text, number, date picker, and select dropdowns populated from the collection's schema), in both the Craft Documents and Craft Daily Notes nodes.
+- **Relation picker** — link items to related collections via a multi-select that lists the target collection's items by name (resolved from each relation's `targetCollectionId`).
+
+### Changed
+
+- Collection *Add/Update Items* now map one collection item per input item (n8n standard for data nodes); feed multiple input items to write multiple rows.
+
+### Fixed
+
+- *Update Items* now fails fast with a clear error when an Item ID is missing, instead of an opaque API rejection.
+
 ## [2.0.0] - 2025-12-30
 
 ### 🎉 Highlights
