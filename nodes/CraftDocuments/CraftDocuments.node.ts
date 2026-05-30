@@ -17,6 +17,7 @@ import { documentDescription } from './resources/document';
 import { blockDescription } from './resources/block';
 import { collectionDescription } from './resources/collection';
 import { searchDescription } from './resources/search';
+import { fileDescription } from './resources/file';
 
 // Load options methods
 import { getDocuments } from './loadOptions/getDocuments';
@@ -67,11 +68,6 @@ export class CraftDocuments implements INodeType {
 				noDataExpression: true,
 				options: [
 					{
-						name: 'Document',
-						value: 'document',
-						description: 'List and manage documents',
-					},
-					{
 						name: 'Block',
 						value: 'block',
 						description: 'Manage content blocks in documents',
@@ -80,6 +76,16 @@ export class CraftDocuments implements INodeType {
 						name: 'Collection',
 						value: 'collection',
 						description: 'Manage collections (database-like structures)',
+					},
+					{
+						name: 'Document',
+						value: 'document',
+						description: 'List and manage documents',
+					},
+					{
+						name: 'File',
+						value: 'file',
+						description: 'Upload files into documents',
 					},
 					{
 						name: 'Search',
@@ -95,6 +101,7 @@ export class CraftDocuments implements INodeType {
 			...blockDescription,
 			...collectionDescription,
 			...searchDescription,
+			...fileDescription,
 		],
 	};
 

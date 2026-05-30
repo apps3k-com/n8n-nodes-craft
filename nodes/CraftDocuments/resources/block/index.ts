@@ -10,6 +10,7 @@ import { blockUpdateDescription } from './update';
 import { blockDeleteDescription } from './delete';
 import { blockMoveDescription } from './move';
 import { blockSearchDescription } from './search';
+import { uploadPreSend } from '../../../shared/uploadUi';
 
 const showOnlyForBlocks = { resource: ['block'] };
 
@@ -95,6 +96,16 @@ export const blockDescription: INodeProperties[] = [
 						method: 'PUT',
 						url: '/blocks',
 					},
+				},
+			},
+			{
+				name: 'Upload File',
+				value: 'upload',
+				action: 'Upload a file',
+				description: 'Upload a file and insert it as a block',
+				routing: {
+					request: { method: 'POST', url: '/upload' },
+					send: { preSend: [uploadPreSend] },
 				},
 			},
 		],

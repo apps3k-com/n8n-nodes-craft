@@ -11,6 +11,7 @@ import { blockDescription } from './resources/block';
 import { taskDescription } from './resources/task';
 import { collectionDescription } from './resources/collection';
 import { searchDescription } from './resources/search';
+import { fileDescription } from './resources/file';
 
 // Load options methods
 import { getCollections } from './loadOptions/getCollections';
@@ -64,19 +65,24 @@ export class CraftDailyNotes implements INodeType {
 						description: 'Manage content blocks in daily notes',
 					},
 					{
-						name: 'Task',
-						value: 'task',
-						description: 'Manage tasks across daily notes',
-					},
-					{
 						name: 'Collection',
 						value: 'collection',
 						description: 'Manage collections (database-like structures)',
 					},
 					{
+						name: 'File',
+						value: 'file',
+						description: 'Upload files into daily notes',
+					},
+					{
 						name: 'Search',
 						value: 'search',
 						description: 'Search across daily notes',
+					},
+					{
+						name: 'Task',
+						value: 'task',
+						description: 'Manage tasks across daily notes',
 					},
 				],
 				default: 'block',
@@ -87,6 +93,7 @@ export class CraftDailyNotes implements INodeType {
 			...taskDescription,
 			...collectionDescription,
 			...searchDescription,
+			...fileDescription,
 		],
 	};
 
