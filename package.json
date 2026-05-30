@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-craft-apps3k",
-	"version": "2.0.6",
+	"version": "2.1.0",
 	"description": "n8n community nodes for Craft APIs (apps3k fork) - Daily Notes (blocks, tasks, collections, search) and Documents (multi-document management)",
 	"license": "MIT",
 	"homepage": "https://github.com/apps3000/n8n-nodes-craft#readme",
@@ -44,6 +44,8 @@
 		"dev": "n8n-node dev",
 		"lint": "n8n-node lint",
 		"lint:fix": "n8n-node lint --fix",
+		"test": "vitest run",
+		"test:watch": "vitest",
 		"release": "n8n-node release",
 		"prepublishOnly": "n8n-node prerelease"
 	},
@@ -67,7 +69,8 @@
 		"eslint": "9.32.0",
 		"prettier": "3.6.2",
 		"release-it": "^19.0.4",
-		"typescript": "5.9.2"
+		"typescript": "5.9.2",
+		"vitest": "^4.1.7"
 	},
 	"peerDependencies": {
 		"n8n-workflow": "*"
