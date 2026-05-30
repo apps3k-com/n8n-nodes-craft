@@ -97,6 +97,16 @@ describe('buildCollectionItemBody', () => {
 			allowNewSelectOptions: false,
 		});
 	});
+	it('throws when updating without an Item ID', () => {
+		expect(() =>
+			buildCollectionItemBody({
+				...base,
+				mode: 'update',
+				mapperValue: { prioritt: '🟡 SOLL' },
+				relations: [],
+			}),
+		).toThrow(/Item ID/);
+	});
 	it('ignores relation entries with no selected items', () => {
 		const body = buildCollectionItemBody({
 			...base,

@@ -92,8 +92,18 @@ export function createCollectionFieldMethods(credentialName: string) {
 					`/collections/${rel.targetCollectionId}/items`,
 					{ maxDepth: 0 },
 				);
-				const items = (res.items as Array<{ id: string; title?: string }>) ?? [];
-				return items.map((item) => ({ name: item.title || item.id, value: item.id }));
+				const items = (res.items as IDataObject[]) ?? [];
+				return items.map((item) => {
+					// Collection items expose their title under the collection's content key
+					// (e.g. `was`, `betreff`) — the only top-level key that isn't id/properties.
+					const labelKey = Object.keys(item).find((k) => k !== 'id' && k !== 'properties');
+					const label = labelKey ? item[labelKey] : undefined;
+					const id = String(item.id);
+					return {
+						name: label !== undefined && label !== null && label !== '' ? String(label) : id,
+						value: id,
+					};
+				});
 			} catch {
 				return [];
 			}
@@ -120,13 +130,17 @@ export function createCollectionPreSend(credentialName: string, mode: ResourceMa
 		) as boolean;
 
 		const schema = await fetchSchema(this, credentialName, collectionId);
-		requestOptions.body = buildCollectionItemBody({
-			schema,
-			mode,
-			mapperValue: columns.value ?? {},
-			relations: relationsParam.relation ?? [],
-			allowNewSelectOptions,
-		});
+		try {
+			requestOptions.body = buildCollectionItemBody({
+				schema,
+				mode,
+				mapperValue: columns.value ?? {},
+				relations: relationsParam.relation ?? [],
+				allowNewSelectOptions,
+			});
+		} catch (error) {
+			throw new NodeOperationError(this.getNode(), (error as Error).message);
+		}
 		return requestOptions;
 	};
 }

@@ -129,6 +129,10 @@ export function buildCollectionItemBody(args: BuildBodyArgs): IDataObject {
 		};
 	}
 
+	if (mode === 'update' && (id === undefined || id === null || id === '')) {
+		throw new Error('Update Items requires an Item ID for each item. Map the "Item ID" field.');
+	}
+
 	const item: IDataObject = mode === 'update' ? { id, properties } : { properties };
 	if (contentKey && contentValue !== undefined) {
 		item[contentKey] = contentValue as IDataObject[string];
