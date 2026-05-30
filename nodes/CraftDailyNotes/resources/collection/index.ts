@@ -10,6 +10,7 @@ import { collectionGetItemsDescription } from './getItems';
 import { collectionAddItemsDescription } from './addItems';
 import { collectionUpdateItemsDescription } from './updateItems';
 import { collectionDeleteItemsDescription } from './deleteItems';
+import { createCollectionPreSend } from '../../../shared/collectionMethods';
 
 const showOnlyForCollections = { resource: ['collection'] };
 
@@ -28,10 +29,8 @@ export const collectionDescription: INodeProperties[] = [
 				action: 'Add items to collection',
 				description: 'Add new items to a specific collection',
 				routing: {
-					request: {
-						method: 'POST',
-						url: '=/collections/{{$parameter.collectionId}}/items',
-					},
+					request: { method: 'POST', url: '=/collections/{{$parameter.collectionId}}/items' },
+					send: { preSend: [createCollectionPreSend('craftDailyNotesApi', 'add')] },
 				},
 			},
 			{
@@ -88,10 +87,8 @@ export const collectionDescription: INodeProperties[] = [
 				action: 'Update collection items',
 				description: 'Update existing items in a collection',
 				routing: {
-					request: {
-						method: 'PUT',
-						url: '=/collections/{{$parameter.collectionId}}/items',
-					},
+					request: { method: 'PUT', url: '=/collections/{{$parameter.collectionId}}/items' },
+					send: { preSend: [createCollectionPreSend('craftDailyNotesApi', 'update')] },
 				},
 			},
 		],

@@ -15,6 +15,11 @@ import { searchDescription } from './resources/search';
 // Load options methods
 import { getCollections } from './loadOptions/getCollections';
 
+// Shared collection field-mapping methods (resource mapper + relation pickers)
+import { createCollectionFieldMethods } from '../shared/collectionMethods';
+
+const collectionMethods = createCollectionFieldMethods('craftDailyNotesApi');
+
 export class CraftDailyNotes implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Craft Daily Notes',
@@ -89,6 +94,11 @@ export class CraftDailyNotes implements INodeType {
 	methods = {
 		loadOptions: {
 			getCollections,
+			getRelationFields: collectionMethods.getRelationFields,
+			getRelationTargetItems: collectionMethods.getRelationTargetItems,
+		},
+		resourceMapping: {
+			getCollectionFields: collectionMethods.getCollectionFields,
 		},
 	};
 }
