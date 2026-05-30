@@ -12,6 +12,7 @@ import { taskDescription } from './resources/task';
 import { collectionDescription } from './resources/collection';
 import { searchDescription } from './resources/search';
 import { fileDescription } from './resources/file';
+import { uploadPreSend } from '../shared/uploadUi';
 
 // Load options methods
 import { getCollections } from './loadOptions/getCollections';
@@ -73,6 +74,10 @@ export class CraftDailyNotes implements INodeType {
 						name: 'File',
 						value: 'file',
 						description: 'Upload files into daily notes',
+						routing: {
+							request: { method: 'POST', url: '/upload' },
+							send: { preSend: [uploadPreSend] },
+						},
 					},
 					{
 						name: 'Search',

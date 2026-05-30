@@ -18,6 +18,7 @@ import { blockDescription } from './resources/block';
 import { collectionDescription } from './resources/collection';
 import { searchDescription } from './resources/search';
 import { fileDescription } from './resources/file';
+import { uploadPreSend } from '../shared/uploadUi';
 
 // Load options methods
 import { getDocuments } from './loadOptions/getDocuments';
@@ -86,6 +87,10 @@ export class CraftDocuments implements INodeType {
 						name: 'File',
 						value: 'file',
 						description: 'Upload files into documents',
+						routing: {
+							request: { method: 'POST', url: '/upload' },
+							send: { preSend: [uploadPreSend] },
+						},
 					},
 					{
 						name: 'Search',
