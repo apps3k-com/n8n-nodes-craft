@@ -18,7 +18,7 @@ import { blockDescription } from './resources/block';
 import { collectionDescription } from './resources/collection';
 import { searchDescription } from './resources/search';
 import { fileDescription } from './resources/file';
-import { uploadPreSend } from '../shared/uploadUi';
+import { uploadPreSend, uploadPostReceive } from '../shared/uploadUi';
 
 // Load options methods
 import { getDocuments } from './loadOptions/getDocuments';
@@ -90,6 +90,7 @@ export class CraftDocuments implements INodeType {
 						routing: {
 							request: { method: 'POST', url: '/upload' },
 							send: { preSend: [uploadPreSend] },
+							output: { postReceive: [uploadPostReceive] },
 						},
 					},
 					{
