@@ -48,7 +48,9 @@ Upload images, videos, or documents via **File → Upload** (or **Block → Uplo
 2. Choose a **Position**:
    - **Start / End** — at the start or end of a page (**Documents**: pick the **Page**) or a daily note (**Daily Notes**: set the **Date**).
    - **Before / After** — relative to a **Sibling Block ID**.
-3. Execute. The node returns the new `blockId` and the `assetUrl`.
+3. Execute. The node returns `blockId`, `assetUrl`, and `fileName`.
+
+Optionally set **File Name** to control the name returned in the output (it defaults to the uploaded file's original name). Note: Craft's API does not display file names on uploaded blocks, so this only affects the node's output — useful for downstream nodes.
 
 One file per input item; feed multiple items to upload several files.
 

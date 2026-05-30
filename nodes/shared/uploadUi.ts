@@ -1,6 +1,7 @@
 import type {
 	IExecuteSingleFunctions,
 	IHttpRequestOptions,
+	INodeExecutionData,
 	INodeProperties,
 } from 'n8n-workflow';
 
@@ -74,6 +75,16 @@ export function uploadFileProperties(target: 'page' | 'date'): INodeProperties[]
 			displayOptions: { show: { ...show, position: ['before', 'after'] } },
 			routing: { send: { type: 'query', property: 'siblingId' } },
 		},
+		{
+			displayName: 'File Name',
+			name: 'fileName',
+			type: 'string',
+			default: '',
+			placeholder: "Defaults to the uploaded file's original name",
+			description:
+				"Optional file name returned in this node's output. Leave empty to use the uploaded file's original name. Craft's API does not show file names on uploaded blocks, so this only affects the node output.",
+			displayOptions: { show },
+		},
 	];
 }
 
@@ -98,4 +109,37 @@ export async function uploadPreSend(
 	};
 	requestOptions.json = false;
 	return requestOptions;
+}
+
+/**
+ * Resolve the file name to surface in the node output: the custom name if provided,
+ * otherwise the input file's original name, otherwise an empty string.
+ */
+export function resolveUploadFileName(customName: string, originalName?: string): string {
+	const custom = (customName ?? '').trim();
+	if (custom !== '') return custom;
+	return originalName ?? '';
+}
+
+/**
+ * postReceive that adds the resolved file name to the upload response. Craft does not store
+ * file names on uploaded blocks, so the name is surfaced in this node's output only.
+ */
+export async function uploadPostReceive(
+	this: IExecuteSingleFunctions,
+	items: INodeExecutionData[],
+): Promise<INodeExecutionData[]> {
+	const custom = this.getNodeParameter('fileName', '') as string;
+	let originalName: string | undefined;
+	try {
+		const binaryPropertyName = this.getNodeParameter('binaryPropertyName', 'data') as string;
+		originalName = this.helpers.assertBinaryData(binaryPropertyName).fileName;
+	} catch {
+		originalName = undefined;
+	}
+	const fileName = resolveUploadFileName(custom, originalName);
+	for (const item of items) {
+		item.json = { ...item.json, fileName };
+	}
+	return items;
 }

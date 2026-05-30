@@ -10,7 +10,7 @@ import { blockUpdateDescription } from './update';
 import { blockDeleteDescription } from './delete';
 import { blockMoveDescription } from './move';
 import { blockSearchDescription } from './search';
-import { uploadPreSend } from '../../../shared/uploadUi';
+import { uploadPreSend, uploadPostReceive } from '../../../shared/uploadUi';
 
 const showOnlyForBlocks = { resource: ['block'] };
 
@@ -106,6 +106,7 @@ export const blockDescription: INodeProperties[] = [
 				routing: {
 					request: { method: 'POST', url: '/upload' },
 					send: { preSend: [uploadPreSend] },
+					output: { postReceive: [uploadPostReceive] },
 				},
 			},
 		],
