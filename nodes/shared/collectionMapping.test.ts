@@ -1,6 +1,10 @@
 /* eslint-disable @n8n/community-nodes/no-restricted-imports -- vitest is a dev-only test dependency; test files are excluded from the n8n build (tsconfig) and never ship to n8n Cloud */
 import { describe, it, expect } from 'vitest';
-import { craftTypeToFieldType, mapSchemaToResourceMapperFields } from './collectionMapping';
+import {
+	buildCollectionItemBody,
+	craftTypeToFieldType,
+	mapSchemaToResourceMapperFields,
+} from './collectionMapping';
 import type { CraftCollectionSchema } from './collectionMapping';
 
 describe('craftTypeToFieldType', () => {
@@ -55,5 +59,52 @@ describe('mapSchemaToResourceMapperFields', () => {
 			canBeUsedToMatch: true,
 		});
 		expect(fields.find((f) => f.id === 'was')!.required).toBe(false);
+	});
+});
+
+describe('buildCollectionItemBody', () => {
+	const base = { schema, allowNewSelectOptions: false };
+	it('add: splits content key, drops empties, wraps relations', () => {
+		const body = buildCollectionItemBody({
+			...base,
+			mode: 'add',
+			mapperValue: { was: 'Rent', betrag_chf: 1200, prioritt: '🔴 MUSS', datum: '' },
+			relations: [{ relationField: 'briefkasten', relatedItems: ['blk-1', 'blk-2'] }],
+		});
+		expect(body).toEqual({
+			items: [
+				{
+					was: 'Rent',
+					properties: {
+						betrag_chf: 1200,
+						prioritt: '🔴 MUSS',
+						briefkasten: { relations: [{ blockId: 'blk-1' }, { blockId: 'blk-2' }] },
+					},
+				},
+			],
+			allowNewSelectOptions: false,
+		});
+	});
+	it('update: pulls id, keeps only provided properties', () => {
+		const body = buildCollectionItemBody({
+			...base,
+			mode: 'update',
+			mapperValue: { id: 'item-9', prioritt: '🟡 SOLL' },
+			relations: [],
+		});
+		expect(body).toEqual({
+			itemsToUpdate: [{ id: 'item-9', properties: { prioritt: '🟡 SOLL' } }],
+			allowNewSelectOptions: false,
+		});
+	});
+	it('ignores relation entries with no selected items', () => {
+		const body = buildCollectionItemBody({
+			...base,
+			mode: 'add',
+			mapperValue: { was: 'X' },
+			relations: [{ relationField: 'briefkasten', relatedItems: [] }],
+		});
+		const items = body.items as Array<{ properties: Record<string, unknown> }>;
+		expect(items[0].properties).toEqual({});
 	});
 });
