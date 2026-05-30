@@ -1,85 +1,23 @@
 /**
  * COLLECTION ADD ITEMS OPERATION
- * POST /collections/{collectionId}/items - Add items to a collection
- * 
- * Same as Daily Notes API - no differences
+ * POST /collections/{collectionId}/items — schema-driven typed mapping.
  */
 import type { INodeProperties } from 'n8n-workflow';
+import { collectionMapperProperties } from '../../../shared/collectionUi';
 
-const showOnlyForCollectionAddItems = { operation: ['addItems'], resource: ['collection'] };
+const show = { operation: ['addItems'], resource: ['collection'] };
 
 export const collectionAddItemsDescription: INodeProperties[] = [
-	// Collection ID - dynamic dropdown
 	{
 		displayName: 'Collection Name or ID',
 		name: 'collectionId',
 		type: 'options',
-		typeOptions: {
-			loadOptionsMethod: 'getCollections',
-		},
+		typeOptions: { loadOptionsMethod: 'getCollections' },
 		default: '',
 		required: true,
-		description: 'Select a collection from your documents. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
-		displayOptions: { show: showOnlyForCollectionAddItems },
+		description:
+			'Select a collection. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+		displayOptions: { show },
 	},
-	// Items to add
-	{
-		displayName: 'Items',
-		name: 'items',
-		type: 'fixedCollection',
-		typeOptions: {
-			multipleValues: true,
-		},
-		default: {},
-		placeholder: 'Add Item',
-		displayOptions: { show: showOnlyForCollectionAddItems },
-		options: [
-			{
-				name: 'itemValues',
-				displayName: 'Item',
-				values: [
-					{
-						displayName: 'Title',
-						name: 'title',
-						type: 'string',
-						default: '',
-						required: true,
-						description: 'The title for the new item',
-					},
-					{
-						displayName: 'Properties (JSON)',
-						name: 'properties',
-						type: 'json',
-						default: '{}',
-						description: 'Additional properties for the item as JSON object. Schema depends on collection.',
-					},
-				],
-			},
-		],
-		routing: {
-			send: {
-				type: 'body',
-				property: 'items',
-				// Safely parse JSON properties with fallback to empty object
-				value:
-					'={{ $value.itemValues ? $value.itemValues.map(item => ({ title: item.title, properties: typeof item.properties === "string" ? (() => { try { return JSON.parse(item.properties || "{}"); } catch { return {}; } })() : (item.properties || {}) })) : [] }}',
-			},
-		},
-	},
-
-	// Allow New Select Options
-	{
-		displayName: 'Allow New Select Options',
-		name: 'allowNewSelectOptions',
-		type: 'boolean',
-		default: false,
-		description: 'Whether to allow creating new options for select properties if the value doesn\'t exist in the schema. Use with caution.',
-		displayOptions: { show: showOnlyForCollectionAddItems },
-		routing: {
-			send: {
-				type: 'body',
-				property: 'allowNewSelectOptions',
-			},
-		},
-	},
+	...collectionMapperProperties('add'),
 ];

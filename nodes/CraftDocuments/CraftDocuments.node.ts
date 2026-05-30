@@ -23,6 +23,11 @@ import { getDocuments } from './loadOptions/getDocuments';
 import { getCollections } from './loadOptions/getCollections';
 import { getBlocks } from './loadOptions/getBlocks';
 
+// Shared collection field-mapping methods (resource mapper + relation pickers)
+import { createCollectionFieldMethods } from '../shared/collectionMethods';
+
+const collectionMethods = createCollectionFieldMethods('craftDocumentsApi');
+
 export class CraftDocuments implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Craft Documents',
@@ -99,6 +104,11 @@ export class CraftDocuments implements INodeType {
 			getDocuments,
 			getCollections,
 			getBlocks,
+			getRelationFields: collectionMethods.getRelationFields,
+			getRelationTargetItems: collectionMethods.getRelationTargetItems,
+		},
+		resourceMapping: {
+			getCollectionFields: collectionMethods.getCollectionFields,
 		},
 	};
 }
