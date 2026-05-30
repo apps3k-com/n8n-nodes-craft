@@ -1,143 +1,63 @@
-n8n community nodes for Craft's Connect API. two nodes — one for daily notes + tasks, one for named documents. fully declarative, no `execute()` method, works as AI agent tools (`usableAsTool: true`).
+# n8n-nodes-craft-apps3k
 
-```bash
-npm install n8n-nodes-craft
-```
+n8n community nodes for [Craft](https://www.craft.do)'s Connect API. Two nodes — **Craft Documents** (multi-document spaces) and **Craft Daily Notes** (date-based notes & tasks) — covering blocks, collections, search, tasks, and file uploads. Both are usable as AI agent tools.
 
-or install via n8n's community nodes UI by package name.
+> Fork of [`n8n-nodes-craft`](https://github.com/yigitkonur/n8n-nodes-craft) by Yigit Konur, updated for Craft's Bearer-token Connect API.
 
-[![npm](https://img.shields.io/npm/v/n8n-nodes-craft.svg?style=flat-square)](https://www.npmjs.com/package/n8n-nodes-craft)
-[![node](https://img.shields.io/badge/node->=20.15-93450a.svg?style=flat-square)](https://nodejs.org/)
-[![license](https://img.shields.io/badge/license-MIT-grey.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+## Installation
 
----
+In n8n: **Settings → Community Nodes → Install**, then enter `n8n-nodes-craft-apps3k`.
 
-## what it does
+To use the nodes as AI agent tools, set `N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=true` on the n8n host.
 
-two separate n8n nodes wrapping Craft's two Connect APIs:
+## Authentication
 
-**craft daily notes** — date-indexed journal entries
+Craft's Connect API uses two parts: a connection **URL** plus a separate **API key** (sent as a Bearer token).
 
-| resource | operations |
-|:---|:---|
-| block | get, insert, update, delete, move, search |
-| task | get, add, update, delete |
-| collection | list, get schema, get items, add items, update items, delete items |
-| search | search across all daily notes (plain text or RE2 regex) |
+1. In Craft, go to **Settings → Connect** and create or open a connection.
+2. Copy the **API URL** (looks like `https://connect.craft.do/links/{UUID}/api/v1`).
+3. Copy the **API Key** for that connection.
+4. In n8n, create the matching credential — **Craft Documents API** or **Craft Daily Notes API** — and paste both the **API URL** and the **API Key**.
 
-**craft documents** — named, addressable documents
+The key is stored as a secret and sent as `Authorization: Bearer <key>` on every request. Saving the credential runs a quick `GET /connection` test.
 
-| resource | operations |
-|:---|:---|
-| document | list |
-| block | get, insert, update, delete, move, search |
-| collection | list, get schema, get items, add items, update items, delete items |
-| search | search across documents with include/exclude filters |
+## Nodes & resources
 
-the difference between the two nodes is addressing: daily notes use dates, documents use document IDs. everything else — block updates, collection operations, search — works the same way.
+| Resource | Craft Documents | Craft Daily Notes |
+|----------|:---:|:---:|
+| Document (list, create, move, delete) | ✅ | — |
+| Block (get, insert, update, delete, move, search) | ✅ | ✅ |
+| Collection (list, schema, items CRUD) | ✅ | ✅ |
+| Task (inbox / active / upcoming / logbook) | — | ✅ |
+| Search (across the space) | ✅ | ✅ |
+| **File (upload)** | ✅ | ✅ |
 
-## authentication
+Documents are addressed by document / page IDs; daily notes by date (`today`, `tomorrow`, `yesterday`, or `YYYY-MM-DD`).
 
-two parts: a connection URL plus a separate API key (sent as a Bearer token). no OAuth.
+## Working with collections
 
-1. in Craft, go to Settings > Connect
-2. grab the API URL (looks like `https://connect.craft.do/links/{UUID}/api/v1`)
-3. grab the API key for that connection
-4. paste both into the n8n credential — **API URL** and **API Key**
+Collections are structured tables inside Craft. For **Add Items** and **Update Items**, pick a collection and its columns load automatically as typed fields — text, number, date picker, and dropdowns whose options come from the collection's schema. No JSON required.
 
-the key is stored as a secret and sent as `Authorization: Bearer <key>` on every request.
+To set a **relation** (a link to items in another collection), use the **Relations** section: choose the relation field, then pick one or more target items from the dropdown. For **Update Items**, map the **Item ID** field to identify the row to change.
 
-## usage
+## Uploading files
 
-### insert a block into today's daily note
+Upload images, videos, or documents via **File → Upload** (or **Block → Upload File** — the same action).
 
-set resource to **block**, operation to **insert**, write your content as markdown. Craft's server parses it into proper block types.
+1. Provide the file as binary data on the incoming item (e.g. from **HTTP Request**, **Read/Write Files from Disk**, or a previous node) and set **Input Binary Field** to that property's name (default `data`).
+2. Choose a **Position**:
+   - **Start / End** — at the start or end of a page (**Documents**: pick the **Page**) or a daily note (**Daily Notes**: set the **Date**).
+   - **Before / After** — relative to a **Sibling Block ID**.
+3. Execute. The node returns the new `blockId` and the `assetUrl`.
 
-### manage tasks
+One file per input item; feed multiple items to upload several files.
 
-get active/upcoming/inbox/logbook tasks, add new ones with schedule and deadline dates, update state (todo/done/cancelled), or delete by ID.
+## Troubleshooting
 
-### work with collections
+- **Credential test fails:** re-check the API URL and API Key (Settings → Connect). The key is the connection's key, not the URL UUID.
+- **Nodes not available as tools:** set `N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=true` and restart n8n.
+- **Empty collection dropdowns:** make sure the credential points at a connection that has access to the relevant documents and collections.
 
-collections are structured databases inside Craft. you can list them, fetch their schema (raw or JSON Schema format), and CRUD items with typed properties.
+## License
 
-### search
-
-two scopes: search within a single document/daily note (returns matching blocks with context), or search across all daily notes / documents with date range or document ID filters. supports plain text and RE2 regex.
-
-## block properties
-
-| property | values |
-|:---|:---|
-| text style | `body`, `caption`, `card`, `h1`-`h4`, `page` |
-| list style | `bullet`, `none`, `numbered`, `task`, `toggle` |
-| font | `system`, `serif`, `rounded`, `mono` |
-| position | `start`, `end`, `before`, `after` (relative to a sibling block) |
-| color | hex value, sent as `decorations: [{ color: "#hex" }]` |
-
-## build from source
-
-```bash
-git clone https://github.com/yigitkonur/n8n-nodes-craft.git
-cd n8n-nodes-craft
-pnpm install
-pnpm build
-```
-
-other commands:
-
-```bash
-pnpm build:watch    # tsc --watch
-pnpm lint           # n8n-node lint
-pnpm lint:fix       # n8n-node lint --fix
-```
-
-requires node >= 20.15 and pnpm.
-
-## project structure
-
-```
-credentials/
-  CraftDailyNotesApi.credentials.ts    — daily notes API credential
-  CraftDocumentsApi.credentials.ts     — documents API credential
-nodes/
-  shared/
-    blockDefinitions.ts                — shared option lists (styles, fonts, positions)
-    transport.ts                       — API request factory, ID array parser
-  CraftDailyNotes/
-    CraftDailyNotes.node.ts            — main node class
-    shared/transport.ts                — credential-bound API request
-    loadOptions/getCollections.ts      — dynamic dropdown for collections
-    resources/
-      block/                           — get, insert, update, delete, move, search
-      task/                            — get, add, update, delete
-      collection/                      — list, schema, items CRUD
-      search/                          — cross-daily-note search
-  CraftDocuments/
-    CraftDocuments.node.ts             — main node class
-    shared/transport.ts                — credential-bound API request
-    loadOptions/
-      getDocuments.ts                  — dynamic dropdown for documents
-      getCollections.ts                — dynamic dropdown for collections
-      getBlocks.ts                     — dynamic dropdown, flattens block tree
-    resources/
-      document/                        — list
-      block/                           — same as daily notes, uses document ID instead of date
-      collection/                      — same ops, filters by document IDs instead of dates
-      search/                          — cross-document search with include/exclude
-icons/
-  craft.svg                            — light mode
-  craft.dark.svg                       — dark mode
-```
-
-## how it works internally
-
-- fully declarative architecture — all routing defined in `INodeProperties` metadata, no imperative `execute()` method
-- block insert uses a `preSend` hook that wraps markdown into a `type: "text"` block, lets Craft's server-side parser handle the rest
-- ID fields accept both comma-separated strings and JSON arrays
-- dynamic dropdowns (`loadOptions`) fetch live data from the API for collections, documents, and block trees
-- block tree flattening uses recursive traversal with depth-based indentation for the dropdown display
-
-## license
-
-MIT
+[MIT](LICENSE.md) — see [CHANGELOG.md](CHANGELOG.md) for release history.
