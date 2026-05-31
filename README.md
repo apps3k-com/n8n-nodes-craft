@@ -2,7 +2,9 @@
 
 n8n community nodes for [Craft](https://www.craft.do)'s Connect API. Two nodes — **Craft Documents** (multi-document spaces) and **Craft Daily Notes** (date-based notes & tasks) — covering blocks, collections, search, tasks, and file uploads. Both are usable as AI agent tools.
 
-> Fork of [`n8n-nodes-craft`](https://github.com/yigitkonur/n8n-nodes-craft) by Yigit Konur, updated for Craft's Bearer-token Connect API.
+> **Fork notice:** This is an independent fork of [`n8n-nodes-craft`](https://github.com/yigitkonur/n8n-nodes-craft) by Yigit Konur, published as `n8n-nodes-craft-apps3k` and updated for Craft's current Connect API (separate **API URL** + **API key**, Bearer auth).
+
+📖 **Full user guide, with screenshots:** **[craft-n8n.apps3k.com](https://craft-n8n.apps3k.com)**
 
 ## Installation
 
@@ -59,6 +61,7 @@ One file per input item; feed multiple items to upload several files.
 - **Credential test fails:** re-check the API URL and API Key (Settings → Connect). The key is the connection's key, not the URL UUID.
 - **Nodes not available as tools:** set `N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=true` and restart n8n.
 - **Empty collection dropdowns:** make sure the credential points at a connection that has access to the relevant documents and collections.
+- **Changes don't take effect after an update (queue mode):** restart the main n8n process *and* all workers — each loads community-node code only at startup.
 
 ## License
 
