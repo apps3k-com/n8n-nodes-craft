@@ -13,7 +13,7 @@ export class CraftDailyNotesApi implements ICredentialType {
 
 	icon: Icon = { light: 'file:../icons/craft.svg', dark: 'file:../icons/craft.dark.svg' };
 
-	documentationUrl = 'https://www.craft.do/s/hLrMZpKFfYRWPT';
+	documentationUrl = 'https://craft-n8n.apps3k.com/';
 
 	properties: INodeProperties[] = [
 		{
