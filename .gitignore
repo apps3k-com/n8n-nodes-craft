@@ -32,7 +32,7 @@ README_TEMPLATE.md
 craft-api-docs.md
 API_VALUE_REFERENCE.md
 text-test.md
-docs/
+docs/*
 how-to-create-community-nodes/
 craft-api-changes/
 
@@ -41,6 +41,14 @@ craft-api-changes/
 !README.md
 !CHANGELOG.md
 !LICENSE.md
+
+# apps3k common-workflow scaffold — kept tracked in the repo (never published:
+# `files` in package.json limits the npm artifact to dist/). These negations are
+# last so they win over the broad ignores above.
+!AGENTS.md
+!CLAUDE.md
+!docs/wiki/
+!docs/wiki/**
 
 # Logs
 *.log
