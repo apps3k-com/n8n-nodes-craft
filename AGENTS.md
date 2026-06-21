@@ -13,7 +13,7 @@ tasks, file upload; usable as AI agent tools). Published to npm. Repo:
 
 - **Language:** chat with the user = German. Code, comments, commits, PRs = English.
 - **Memory:** only **apps3k-memory** (`https://mcp-auth.apps3k.com/mcp/apps3k-memory`).
-  Search it before any work; if a memory references a plane.so work item, read it. Store
+  Search it before any work; if a memory references a GitHub issue, read it. Store
   after each step. If the MCP is down, tell the user, cache memories and add them
   later. Never store secrets (only 1Password paths).
 - **Diagnose before assuming:** verify against the code, the Craft Connect API and
@@ -26,8 +26,8 @@ tasks, file upload; usable as AI agent tools). Published to npm. Repo:
 
 - One long-lived branch: **`main`**. Short-lived `feature/<scope>` (or `fix/`,
   `chore/`, `docs/`) branch from `main`; the PR targets `main`.
-- **Conventional Commits.** Every commit and PR description carries the plane.so
-  **work-item ID**; the PR title references the main work item as `[<ID>]`.
+- **Project management:** GitHub Projects. **Conventional Commits**; the PR links its
+  GitHub issue with a closing keyword (`Closes #N`); commit `(#N)` optional.
 - **Self-review before a PR:** fix every issue found — including ones from earlier
   steps, not just the current diff.
 - **CodeRabbit** reviews PRs against `main`: implement valid feedback + confirm,

@@ -14,9 +14,8 @@ rules; this page is the human-readable summary._
 
 ## Commits & PRs
 - **Conventional Commits** (`type(scope): subject`).
-- Every commit and PR carries the plane.so **work-item ID**; the **PR title**
-  references the main work item in **square brackets** `[<ID>]` (links the PR for
-  status sync). Secondary items are mentioned without brackets.
+- The PR links its GitHub issue with a closing keyword (`Closes #N`); commit `(#N)`
+  optional. Secondary items are mentioned without brackets.
 - Enforced by `.claude/hooks/` (commit-guard, push-guard, pr-validate, …).
 
 ## Review
