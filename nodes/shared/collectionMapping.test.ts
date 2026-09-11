@@ -33,13 +33,14 @@ const schema: CraftCollectionSchema = {
 			options: [{ name: '🔴 MUSS' }, { name: '🟡 SOLL' }],
 		},
 		{ key: 'briefkasten', name: 'Briefkasten', type: 'relation', targetCollectionId: 'target-1' },
+		{ key: 'status', name: 'Status', type: 'select', options: ['Not Started', 'Completed'] },
 	],
 };
 
 describe('mapSchemaToResourceMapperFields', () => {
 	it('builds typed columns and skips relations (add mode)', () => {
 		const fields = mapSchemaToResourceMapperFields(schema, 'add');
-		expect(fields.map((f) => f.id)).toEqual(['was', 'betrag_chf', 'datum', 'prioritt']);
+		expect(fields.map((f) => f.id)).toEqual(['was', 'betrag_chf', 'datum', 'prioritt', 'status']);
 		expect(fields.find((f) => f.id === 'was')).toMatchObject({ type: 'string', required: true });
 		expect(fields.find((f) => f.id === 'betrag_chf')!.type).toBe('number');
 		expect(fields.find((f) => f.id === 'datum')!.type).toBe('dateTime');
@@ -48,6 +49,12 @@ describe('mapSchemaToResourceMapperFields', () => {
 		expect(sel.options).toEqual([
 			{ name: '🔴 MUSS', value: '🔴 MUSS' },
 			{ name: '🟡 SOLL', value: '🟡 SOLL' },
+		]);
+		const status = fields.find((f) => f.id === 'status')!;
+		expect(status).toMatchObject({ type: 'options' });
+		expect(status.options).toEqual([
+			{ name: 'Not Started', value: 'Not Started' },
+			{ name: 'Completed', value: 'Completed' },
 		]);
 	});
 	it('prepends a required Item ID match column (update mode)', () => {

@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Node version 2 with searchable document/collection selectors and explicit direct-ID mode, while keeping version 1 available for saved workflows.
+- Explicit Space connection scope with document create/move/trash, folder discovery, and task get/add/update/delete, including document-scoped tasks.
+- Named task/folder selection, local picker pagination, version compatibility checks, and a repeatable JSDoc coverage gate.
+
+### Fixed
+
+- Collection mapping recognizes documented `select` schemas with string options and retains older `singleSelect` object options.
+- Schema and selection errors surface in the editor; relation labels use the target collection's schema.
+- Version-2 block insertion sends mutually exclusive parent/sibling positions; Space block search uses its documented `blockId` query key.
+
 ## [2.3.1] - 2026-05-31
 
 ### Fixed

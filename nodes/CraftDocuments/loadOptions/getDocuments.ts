@@ -1,51 +1,56 @@
-/**
- * Load options method for fetching documents
- * Used by document selector dropdowns
- */
-import type { ILoadOptionsFunctions, INodePropertyOptions } from 'n8n-workflow';
-
+import type {
+	ILoadOptionsFunctions,
+	INodePropertyOptions,
+	INodeListSearchResult,
+} from 'n8n-workflow';
 import { craftApiRequest } from '../shared/transport';
 
 interface DocumentItem {
 	id: string;
 	title: string;
 	isDeleted?: boolean;
+	dailyNoteDate?: string;
 }
 
-interface DocumentsResponse {
-	items: DocumentItem[];
+/** Fetch readable documents; keep credential/server errors visible in the editor. */
+export async function getDocuments(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+	const response = (await craftApiRequest.call(this, 'GET', '/documents')) as {
+		items?: DocumentItem[];
+	};
+	if (!Array.isArray(response.items))
+		throw new Error(
+			'Craft returned an invalid document list. Check the connection type and API URL.',
+		);
+	return response.items
+		.filter((doc) => !doc.isDeleted)
+		.map((doc) => ({
+			name: doc.title || `Untitled (${doc.id})`,
+			value: doc.id,
+			description: doc.dailyNoteDate || `ID: ${doc.id}`,
+		}));
 }
 
-/**
- * Fetch all documents from the Craft Documents API
- * Returns options for document selector dropdowns
- *
- * @returns Array of document options, or empty array on error
- */
-export async function getDocuments(
+/** Search titles/IDs and page the editor list locally; Craft has no documented list cursor. */
+export async function searchDocuments(
 	this: ILoadOptionsFunctions,
-): Promise<INodePropertyOptions[]> {
-	try {
-		const response = (await craftApiRequest.call(
-			this,
-			'GET',
-			'/documents',
-		)) as unknown as DocumentsResponse;
-
-		if (!response?.items || !Array.isArray(response.items)) {
-			return [];
-		}
-
-		// Filter out deleted documents and map to options
-		return response.items
-			.filter((doc) => !doc.isDeleted)
-			.map((doc) => ({
-				name: doc.title || `Document ${doc.id}`,
-				value: doc.id,
-				description: `ID: ${doc.id}`,
-			}));
-	} catch {
-		// Return empty array on error - n8n will show "No options available"
-		return [];
-	}
+	filter = '',
+	paginationToken?: string,
+): Promise<INodeListSearchResult> {
+	const offset = paginationToken === undefined ? 0 : Number(paginationToken);
+	if (!Number.isSafeInteger(offset) || offset < 0)
+		throw new Error('Invalid document selection page. Search again.');
+	const query = filter.toLocaleLowerCase();
+	const options = (await getDocuments.call(this)).filter((item) =>
+		`${item.name} ${item.value}`.toLocaleLowerCase().includes(query),
+	);
+	return {
+		results: options
+			.slice(offset, offset + 100)
+			.map((item) => ({
+				name: item.name,
+				value: String(item.value),
+				description: item.description,
+			})),
+		...(offset + 100 < options.length ? { paginationToken: String(offset + 100) } : {}),
+	};
 }

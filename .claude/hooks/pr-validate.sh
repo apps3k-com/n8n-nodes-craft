@@ -38,10 +38,9 @@ if [ -n "$BASE" ] && ! printf ',%s,' "$(printf '%s' "$ALLOWED" | tr -d '[:space:
   exit 2
 fi
 
-# GitHub issue link (fail-closed): the PR must close its work item with a keyword
-# (Closes/Fixes/Resolves #N) so GitHub closes the issue on merge and the Project's
-# built-in workflow moves it. Inline --body/-b is read directly; --body-file/-F is
-# read from disk. Toggle with WORKFLOW_REQUIRE_ISSUE_REF (default: true).
+# Plane Craft Nodes is authoritative. Require a direct issue URL from this project.
+# The local guard checks URL syntax/scope; verify the issue exists through Plane.
+# Inline --body/-b and --body-file/-F are supported.
 if [ "${WORKFLOW_REQUIRE_ISSUE_REF:-true}" = "true" ]; then
   # 1) Inline --body/-b VALUE (perl slurp → multi-line safe). Extracting the value
   #    means a "--body-file" substring inside the body can't be mistaken for the flag.
@@ -65,13 +64,13 @@ if [ "${WORKFLOW_REQUIRE_ISSUE_REF:-true}" = "true" ]; then
       if (/(?:^|\s)-F(\S+)/)                                 { print $1; exit }' 2>/dev/null || true)
     [ -n "$BF" ] && [ "$BF" != "-" ] && [ -f "$BF" ] && BODY=$(cat "$BF" 2>/dev/null || true)
   fi
-  # 3) Require a closing keyword with word boundaries on BOTH sides of #<n> so
-  #    'prefixes #1' != 'fixes #1' and 'Closes #12abc' (malformed) doesn't pass as '#12'.
-  if ! printf '%s' "$BODY" | grep -qiE '(^|[^[:alnum:]_])(close[sd]?|fix(e[sd])?|resolve[sd]?)[[:space:]]+#[0-9]+($|[^[:alnum:]_])'; then
-    echo "BLOCKED: link the issue with a closing keyword, e.g. 'Closes #123', in --body or --body-file. Set WORKFLOW_REQUIRE_ISSUE_REF=false to relax. Mention secondary issues without a keyword." >&2
+  # Require the exact project and a complete issue UUID, followed by a URL boundary.
+  PLANE_ISSUE_RE='https://plane[.]apps3k[.]com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/?($|[[:space:])>])'
+  if ! printf '%s' "$BODY" | grep -qE "$PLANE_ISSUE_RE"; then
+    echo "BLOCKED: include a direct Plane Craft Nodes issue URL in --body or --body-file (project dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6). GitHub issue references alone do not satisfy this requirement." >&2
     exit 2
   fi
 fi
 
-jq -n '{"systemMessage":"PR checklist: self-review done (fix issues from earlier steps too); PR body links its issue (Closes #N); Conventional Commit title; local gates green (typecheck, tests, docstring-coverage). After opening, see the CodeRabbit review through to resolution before handing back."}'
+jq -n '{"systemMessage":"PR checklist: self-review done (fix issues from earlier steps too); PR body links its Plane Craft Nodes issue (direct URL and CRNO-N); Conventional Commit title; local gates green (typecheck, tests, docstring-coverage). After opening, see the CodeRabbit review through to resolution before handing back."}'
 exit 0

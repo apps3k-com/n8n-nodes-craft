@@ -15,7 +15,7 @@ import { fileDescription } from './resources/file';
 import { uploadPreSend, uploadPostReceive } from '../shared/uploadUi';
 
 // Load options methods
-import { getCollections } from './loadOptions/getCollections';
+import { getCollections, searchCollections } from './loadOptions/getCollections';
 
 // Shared collection field-mapping methods (resource mapper + relation pickers)
 import { createCollectionFieldMethods } from '../shared/collectionMethods';
@@ -28,9 +28,11 @@ export class CraftDailyNotes implements INodeType {
 		name: 'craftDailyNotes',
 		icon: { light: 'file:../../icons/craft.svg', dark: 'file:../../icons/craft.dark.svg' },
 		group: ['transform'],
-		version: 1,
+		version: [1, 2],
+		defaultVersion: 2,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-		description: 'Interact with Craft Daily Notes API - manage blocks, tasks, collections, and search',
+		description:
+			'Interact with Craft Daily Notes API - manage blocks, tasks, collections, and search',
 		defaults: { name: 'Craft Daily Notes' },
 		usableAsTool: true,
 		inputs: [NodeConnectionTypes.Main],
@@ -105,6 +107,10 @@ export class CraftDailyNotes implements INodeType {
 
 	// Methods for dynamic dropdowns
 	methods = {
+		listSearch: {
+			searchCollectionItems: collectionMethods.searchCollectionItems,
+			searchCollections,
+		},
 		loadOptions: {
 			getCollections,
 			getRelationFields: collectionMethods.getRelationFields,

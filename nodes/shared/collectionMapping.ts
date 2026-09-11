@@ -6,7 +6,7 @@ export interface CraftSchemaProperty {
 	key: string;
 	name: string;
 	type: string;
-	options?: Array<{ name: string }>;
+	options?: Array<string | { name: string }>;
 	targetCollectionId?: string;
 	config?: Record<string, unknown>;
 }
@@ -19,6 +19,7 @@ export interface CraftCollectionSchema {
 
 export type N8nFieldType = 'string' | 'number' | 'dateTime' | 'options';
 
+/** Converts documented Craft collection property types to n8n mapper input types. */
 export function craftTypeToFieldType(craftType: string): N8nFieldType {
 	switch (craftType) {
 		case 'number':
@@ -26,6 +27,7 @@ export function craftTypeToFieldType(craftType: string): N8nFieldType {
 		case 'date':
 			return 'dateTime';
 		case 'singleSelect':
+		case 'select':
 			return 'options';
 		case 'text':
 			return 'string';
@@ -34,6 +36,7 @@ export function craftTypeToFieldType(craftType: string): N8nFieldType {
 	}
 }
 
+/** Builds n8n mapper fields from the direct Craft schema response. */
 export function mapSchemaToResourceMapperFields(
 	schema: CraftCollectionSchema,
 	mode: ResourceMapperMode,
@@ -75,7 +78,10 @@ export function mapSchemaToResourceMapperFields(
 			defaultMatch: false,
 		};
 		if (type === 'options' && Array.isArray(prop.options)) {
-			field.options = prop.options.map((o) => ({ name: o.name, value: o.name }));
+			field.options = prop.options.flatMap((option) => {
+				const value = typeof option === 'string' ? option : option.name;
+				return value ? [{ name: value, value }] : [];
+			});
 		}
 		fields.push(field);
 	}
@@ -96,10 +102,12 @@ export interface BuildBodyArgs {
 	allowNewSelectOptions: boolean;
 }
 
+/** Identifies values that Craft should omit rather than send as empty properties. */
 function isEmpty(value: unknown): boolean {
 	return value === undefined || value === null || value === '';
 }
 
+/** Serializes one mapped n8n input item into Craft's add or update payload shape. */
 export function buildCollectionItemBody(args: BuildBodyArgs): IDataObject {
 	const { schema, mode, mapperValue, relations, allowNewSelectOptions } = args;
 	const contentKey = schema.contentPropDetails?.key;

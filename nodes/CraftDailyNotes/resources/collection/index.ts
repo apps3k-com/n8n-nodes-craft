@@ -29,7 +29,10 @@ export const collectionDescription: INodeProperties[] = [
 				action: 'Add items to collection',
 				description: 'Add new items to a specific collection',
 				routing: {
-					request: { method: 'POST', url: '=/collections/{{$parameter.collectionId}}/items' },
+					request: {
+						method: 'POST',
+						url: '=/collections/{{encodeURIComponent($parameter.collectionId.value ?? $parameter.collectionId)}}/items',
+					},
 					send: { preSend: [createCollectionPreSend('craftDailyNotesApi', 'add')] },
 				},
 			},
@@ -41,7 +44,7 @@ export const collectionDescription: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'DELETE',
-						url: '=/collections/{{$parameter.collectionId}}/items',
+						url: '=/collections/{{encodeURIComponent($parameter.collectionId.value ?? $parameter.collectionId)}}/items',
 					},
 				},
 			},
@@ -53,7 +56,7 @@ export const collectionDescription: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'GET',
-						url: '=/collections/{{$parameter.collectionId}}/items',
+						url: '=/collections/{{encodeURIComponent($parameter.collectionId.value ?? $parameter.collectionId)}}/items',
 					},
 				},
 			},
@@ -65,7 +68,7 @@ export const collectionDescription: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'GET',
-						url: '=/collections/{{$parameter.collectionId}}/schema',
+						url: '=/collections/{{encodeURIComponent($parameter.collectionId.value ?? $parameter.collectionId)}}/schema',
 					},
 				},
 			},
@@ -87,7 +90,10 @@ export const collectionDescription: INodeProperties[] = [
 				action: 'Update collection items',
 				description: 'Update existing items in a collection',
 				routing: {
-					request: { method: 'PUT', url: '=/collections/{{$parameter.collectionId}}/items' },
+					request: {
+						method: 'PUT',
+						url: '=/collections/{{encodeURIComponent($parameter.collectionId.value ?? $parameter.collectionId)}}/items',
+					},
 					send: { preSend: [createCollectionPreSend('craftDailyNotesApi', 'update')] },
 				},
 			},

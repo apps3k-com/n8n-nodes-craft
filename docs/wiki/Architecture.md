@@ -12,7 +12,8 @@ Built with `@n8n/node-cli` (`n8n-node` build/dev/lint/release); TypeScript →
 ## Nodes
 
 - **Craft Documents** (`nodes/CraftDocuments`) — multi-document spaces:
-  Document (list/create/move/delete), Block (get/insert/update/delete/move/search),
+  Document list for selected connections; version 2 explicitly adds Space document
+  create/move/trash, folder discovery and tasks. Block (get/insert/update/delete/move/search),
   Collection (list/schema/items CRUD), Search, File upload.
 - **Craft Daily Notes** (`nodes/CraftDailyNotes`) — date-based notes & tasks:
   Block, Collection, Task (inbox/active/upcoming/logbook), Search, File upload.
