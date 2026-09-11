@@ -98,8 +98,8 @@ Terra reviewed Space operations and the integrated node contracts. Fixed finding
 
 ## Delivery constraint
 
-GitHub Issues are disabled for `apps3k-com/n8n-nodes-craft`, while AGENTS.md and
-the PR hook require a real closing issue reference. No issue number has been
-invented and no hook disabled. Owner action is required to enable Issues or
-explicitly change that requirement before a conforming PR can be created.
+The owner designated [Plane Craft Nodes](https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/) as the authoritative tracker.
+AGENTS.md, shared PR guards and wiki now require a direct issue URL from that
+project rather than a GitHub closing reference. CRNO-1 tracks implementation,
+CRNO-2 tracks this workflow migration, and CRNO-3 tracks remaining live acceptance.
 No merge, release, npm publish, or production package replacement was performed.

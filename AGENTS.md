@@ -13,7 +13,7 @@ tasks, file upload; usable as AI agent tools). Published to npm. Repo:
 
 - **Language:** chat with the user = German. Code, comments, commits, PRs = English.
 - **Memory:** only **apps3k-memory** (`https://mcp-auth.apps3k.com/mcp/apps3k-memory`).
-  Search it before any work; if a memory references a GitHub issue, read it. Store
+  Search it before any work; if a memory references a work item, read it. Store
   after each step. If the MCP is down, tell the user, cache memories and add them
   later. Never store secrets (only 1Password paths).
 - **Diagnose before assuming:** verify against the code, the Craft Connect API and
@@ -26,8 +26,13 @@ tasks, file upload; usable as AI agent tools). Published to npm. Repo:
 
 - One long-lived branch: **`main`**. Short-lived `feature/<scope>` (or `fix/`,
   `chore/`, `docs/`) branch from `main`; the PR targets `main`.
-- **Project management:** GitHub Projects. **Conventional Commits**; the PR links its
-  GitHub issue with a closing keyword (`Closes #N`); commit `(#N)` optional.
+- **Project management:** [Plane Craft Nodes](https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/) is authoritative
+  (workspace `apps3k`, project `dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6`, prefix `CRNO`).
+  Create and maintain work items there; GitHub Issues/Projects are not required.
+- **Conventional Commits**; every PR must include a direct Plane issue URL from
+  this project and its `CRNO-N` identifier. Link the PR back to the Plane issue.
+  GitHub closing keywords are not required and do not close Plane work items.
+  Keep items open until their acceptance criteria are verified; commit IDs are optional.
 - **Self-review before a PR:** fix every issue found — including ones from earlier
   steps, not just the current diff.
 - **CodeRabbit** reviews PRs against `main`: implement valid feedback + confirm,

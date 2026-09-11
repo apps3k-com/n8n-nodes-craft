@@ -14,8 +14,10 @@ rules; this page is the human-readable summary._
 
 ## Commits & PRs
 - **Conventional Commits** (`type(scope): subject`).
-- The PR links its GitHub issue with a closing keyword (`Closes #N`); commit `(#N)`
-  optional. Secondary items are mentioned without brackets.
+- Plane [Craft Nodes](https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/) (`CRNO`) is the authoritative task tracker.
+- Every PR includes a direct issue URL from this project and its `CRNO-N` identifier.
+  Link the PR back to Plane. No GitHub issue or closing keyword is required.
+  Keep Plane work items open until their acceptance criteria are verified.
 - Enforced by `.claude/hooks/` (commit-guard, push-guard, pr-validate, …).
 
 ## Review

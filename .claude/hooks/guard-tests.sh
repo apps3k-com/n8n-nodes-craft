@@ -82,40 +82,48 @@ check commit-guard.sh 2 "git -cuser.email=x commit -m \"feat: g\"" "commit behin
 check branch-name-guard.sh 2 "git -cfoo=bar checkout -b main" "reserved name behind glued -c can't bypass"
 check push-guard.sh 2 "git -cfoo=bar push origin $PB"      "push to protected behind glued -c can't bypass"
 
-# pr-validate (base must be allowed; PR body must link its issue via Closes #N)
-check pr-validate.sh 0 "gh pr create --base $PB --title \"feat: x\" --body \"Closes #1\""  "body with closing keyword (allowed)"
+# pr-validate (base must be allowed; PR body must link its issue with a direct Plane URL)
+check pr-validate.sh 0 "gh pr create --base $PB --title \"feat: x\" --body \"https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900dd/\""  "body with Plane URL (allowed)"
 check pr-validate.sh 2 "gh pr create --base $PB --title \"feat: x\" --body \"no link here\"" "inline body without an issue link (blocked)"
-check pr-validate.sh 0 "gh pr create --base $PB --title \"feat: x\" --body \"Fixes #12 and refs #3\"" "Fixes keyword variant (allowed)"
+check pr-validate.sh 0 "gh pr create --base $PB --title \"feat: x\" --body \"https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900dd/\"" "direct Plane URL (allowed)"
 check pr-validate.sh 2 "gh pr create --base $PB --title \"feat: x\""                       "no body at all — fail-closed (blocked)"
 check pr-validate.sh 2 "gh pr create --base $PB --title \"feat: x\" -F /nonexistent-xyz.md" "body-file missing/unreadable — fail-closed (blocked)"
 check pr-validate.sh 2 "gh pr create --base $PB --title \"feat: x\" --body \"\""           "empty inline body — fail-closed (blocked)"
 check pr-validate.sh 2 "gh pr create --base $PB --title \"feat: x\" --body \"no link --body-file x\"" "the --body-file substring inside a body can't bypass (blocked)"
 check pr-validate.sh 2 "gh pr create --base $PB --title \"feat: x\" --body \"prefixes #1\"" "partial word 'prefixes #1' != 'fixes #1' (blocked)"
-crbf="$(mktemp)"; printf 'Body.\nCloses #7\n' > "$crbf"
-check pr-validate.sh 0 "gh pr create --base $PB --title \"feat: x\" -F $crbf"               "body-file on disk with a closing keyword (allowed)"
+crbf="$(mktemp)"; printf 'Body.\nhttps://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900dd/\n' > "$crbf"
+check pr-validate.sh 0 "gh pr create --base $PB --title \"feat: x\" -F $crbf"               "body-file on disk with Plane URL (allowed)"
 rm -f "$crbf"
-check pr-validate.sh 2 "gh pr create --base nope --title \"feat: x\" --body \"Closes #1\"" "disallowed base blocked even with a valid body (blocked)"
-check pr-validate.sh 2 "gh --repo o/r pr create --base nope --title \"x\" --body \"Closes #1\"" "gh global flag can't bypass base check (blocked)"
-check pr-validate.sh 2 "gh -Ro/r pr create --base nope --title \"x\" --body \"Closes #1\"" "glued -Ro/r short flag can't bypass base check (blocked)"
+check pr-validate.sh 2 "gh pr create --base nope --title \"feat: x\" --body \"https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900dd/\"" "disallowed base blocked even with a valid body (blocked)"
+check pr-validate.sh 2 "gh --repo o/r pr create --base nope --title \"x\" --body \"https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900dd/\"" "gh global flag can't bypass base check (blocked)"
+check pr-validate.sh 2 "gh -Ro/r pr create --base nope --title \"x\" --body \"https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900dd/\"" "glued -Ro/r short flag can't bypass base check (blocked)"
 check pr-validate.sh 0 "gh pr view 9"                                        "gh pr view is not create (allowed)"
-check pr-validate.sh 2 "gh pr -R o/r create --base nope --title \"x\" --body \"Closes #1\"" "flag AFTER pr (gh pr -R o/r create) still base-checked (blocked)"
-check pr-validate.sh 2 "gh --repo=o/r pr create --base nope --title \"x\" --body \"Closes #1\"" "= form before pr (gh --repo=o/r pr create) (blocked)"
-check pr-validate.sh 2 "gh pr -R=o/r create --base nope --title \"x\" --body \"Closes #1\"" "= form AFTER pr (gh pr -R=o/r create) (blocked)"
-check pr-validate.sh 2 "gh pr view 1 && gh -Ro/r pr create --base nope --title \"x\" --body \"Closes #1\"" "chained: the 2nd 'gh pr create' segment is still checked (global normalize)"
+check pr-validate.sh 2 "gh pr -R o/r create --base nope --title \"x\" --body \"https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900dd/\"" "flag AFTER pr (gh pr -R o/r create) still base-checked (blocked)"
+check pr-validate.sh 2 "gh --repo=o/r pr create --base nope --title \"x\" --body \"https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900dd/\"" "= form before pr (gh --repo=o/r pr create) (blocked)"
+check pr-validate.sh 2 "gh pr -R=o/r create --base nope --title \"x\" --body \"https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900dd/\"" "= form AFTER pr (gh pr -R=o/r create) (blocked)"
+check pr-validate.sh 2 "gh pr view 1 && gh -Ro/r pr create --base nope --title \"x\" --body \"https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900dd/\"" "chained: the 2nd 'gh pr create' segment is still checked (global normalize)"
 
 # pr-validate: `gh pr new` is a hidden alias for `gh pr create` — must be validated too
-check pr-validate.sh 2 "gh pr new --base nope --title \"x\" --body \"Closes #1\"" "gh pr new disallowed base (blocked)"
-check pr-validate.sh 0 "gh pr new --base $PB --title \"x\" --body \"Closes #1\"" "gh pr new allowed base + Closes (allowed)"
+check pr-validate.sh 2 "gh pr new --base nope --title \"x\" --body \"https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900dd/\"" "gh pr new disallowed base (blocked)"
+check pr-validate.sh 0 "gh pr new --base $PB --title \"x\" --body \"https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900dd/\"" "gh pr new allowed base + Plane URL (allowed)"
 check pr-validate.sh 2 "gh pr new --base $PB --title \"x\" --body \"no ref\"" "gh pr new inline body without issue link (blocked)"
 check pr-validate.sh 0 "gh pr comment 9 --body \"see the gh pr create docs\"" "quoted mention of 'gh pr create' is not a create (no false block)"
 check pr-validate.sh 2 "gh pr new --base $PB --title \"x\" --body \"Closes #12abc\"" "malformed issue ref '#12abc' rejected (trailing boundary)"
-check pr-validate.sh 0 "gh pr new --base $PB --title \"x\" --body \"Closes #12.\"" "valid issue ref then punctuation is accepted (allowed)"
+check pr-validate.sh 0 "gh pr new --base $PB --title \"x\" --body \"https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900dd/\"" "valid issue ref then punctuation is accepted (allowed)"
 
 # pr-validate multi-line --body (perl slurp; a line-based grep would only see line 1)
-ml_ok=$'gh pr create --base '"$PB"$' --title "x" --body "intro line\nCloses #5"'
-check pr-validate.sh 0 "$ml_ok" "multi-line --body with Closes on a later line (allowed)"
+ml_ok=$'gh pr create --base '"$PB"$' --title "x" --body "intro line\nhttps://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900dd/"'
+check pr-validate.sh 0 "$ml_ok" "multi-line --body with Plane URL on a later line (allowed)"
 ml_bad=$'gh pr create --base '"$PB"$' --title "x" --body "intro line\nno issue reference"'
 check pr-validate.sh 2 "$ml_bad" "multi-line --body without an issue link (blocked)"
+
+# Plane scope and URL boundaries.
+check pr-validate.sh 2 'gh pr create --body "Closes #123"' 'GitHub-only reference rejected'
+check pr-validate.sh 2 'gh pr create --body "https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/"' 'project index is not an issue'
+check pr-validate.sh 2 'gh pr create --body "https://plane.apps3k.com/apps3k/projects/aaaaaaaa-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900dd/"' 'different Plane project rejected'
+check pr-validate.sh 2 'gh pr create --body "https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900dd/extra"' 'issue URL path suffix rejected'
+check pr-validate.sh 2 'gh pr create --body "https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900ddabc"' 'UUID suffix rejected'
+check pr-validate.sh 0 'gh pr create --body "[CRNO-1](https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/7a4ffad0-0a52-40c0-a9d3-93c7bd5900dd/)"' 'Markdown Plane issue link accepted'
 
 # pr-merge-guard (the agent never merges; 2 = blocked)
 check pr-merge-guard.sh 2 "gh pr merge 9 --squash"        "gh pr merge (blocked)"

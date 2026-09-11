@@ -2,7 +2,7 @@
 # PreToolUse(Bash, git commit) — protected-branch guard + Conventional Commits.
 # The Conventional-Commit check runs on the extracted -m MESSAGE, never the whole
 # command line. Editor commits (no inline message) can't be inspected here and pass
-# through. Work-item linking is enforced on the PR (Closes #N), not the commit.
+# through. Work-item linking is enforced on the PR (direct Plane Craft Nodes issue URL), not the commit.
 #
 # Provider-neutral: blocks via exit code 2 + stderr, honored by Claude Code and
 # Codex. Shared by .claude/settings.json and .codex/hooks.json. Configure via env:
