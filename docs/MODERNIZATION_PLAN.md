@@ -15,7 +15,7 @@ Keep saved node version 1 and string parameters supported. Introduce node versio
 3. **Functional extension:** Space document create/move/trash operations with named document/folder selection, folder discovery and documented list filters. Keep unsupported connection scopes out of the UI. Never execute writes against production.
 4. **Behavior and reliability:** test resolved request bodies, selection errors, list pagination, dependent fields and version-1 compatibility; verify any contract mismatches found in the initial audit. Add repeatable docstring measurement (production TypeScript callables; minimum 80%).
 5. **Integration and review:** run all tests, lint, build, docstring gate; independent review and fix findings. Attempt isolated local n8n execution/editor validation, distinguish contract fixtures from live Craft evidence. Update README, wiki and unreleased changelog.
-6. **Delivery:** self-review and prepare PR to main. Do not merge, release, publish or modify production data. Resolve the disabled-Issues constraint transparently; never invent an issue reference. Read and address CodeRabbit findings if a PR can be created.
+6. **Delivery:** self-review and prepare PR to main. Do not merge, release, publish or modify production data. Use the owner-designated Plane Craft Nodes project (CRNO) as the authoritative tracker. Link CRNO-1/CRNO-2 in the PR and track outstanding live acceptance in CRNO-3. Read and address CodeRabbit findings.
 
 ## Validation boundaries
 
