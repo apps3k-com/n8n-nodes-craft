@@ -12,4 +12,4 @@ Delete entfernt den ausgewählten Task. Verwende für Schreibtests isolierte, au
 
 Beispiel: Manual Trigger → Craft Documents (Space, Task, Get, Inbox) liest den Posteingang. Für einen Schreibtest erstelle einen eindeutig benannten Task in einem eigenen Testdokument, behalte seine ID, setze ihn auf Done und lies den Dokumentbereich erneut. Ein Fixture-Test beweist keine Live-Schreibfunktion.
 
-Prüfstand: Alle fünf Space-Task-Lesebereiche antworteten am 11.09.2026 erfolgreich, waren jedoch leer. Befüllte Task-Auswahlen, Live-Schreibtests und die v2-Ausführung auf dem gemeinsamen n8n-Host sind unter CRNO-3 offen.
+Lies für einen sicheren ersten Test einen erreichbaren Bereich. Erstelle oder ändere Tasks nur in einem dafür bestimmten Testdokument. Leere Ergebnisse belegen nicht das Verhalten befüllter Task-Listen.

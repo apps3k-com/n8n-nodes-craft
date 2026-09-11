@@ -12,4 +12,4 @@ Delete removes the selected task. Use isolated, explicitly designated test conte
 
 Example: Manual Trigger → Craft Documents (Space, Task, Get, Inbox) reads the inbox. For a write test, create a uniquely named task in a dedicated test document, retain its ID, update it to Done and read that document scope back. Do not treat a fixture run as proof of live writes.
 
-Validation status: the five Space task read scopes succeeded against the designated connection on 2026-09-11, but all were empty. Populated task selectors, live writes and shared n8n v2 execution remain tracked in CRNO-3.
+For a safe first test, read a scope you can access. Only create or change tasks in a document intended for testing. Empty results do not verify how populated task lists will behave.

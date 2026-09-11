@@ -7,3 +7,6 @@ and Codex. This file imports them so there is a single source of truth (no drift
 
 > Claude-specific: mandatory hooks live in `.claude/hooks/` (Codex: `.codex/hooks/`).
 > Detail is read **on demand** from the bilingual Craft wiki (versioned counterparts in `docs/wiki/de/` and `docs/wiki/en/`), never duplicated here.
+
+> Public documentation contains user-facing product information only. Internal operations
+> and release/access procedures belong in the internal Craft destination in AGENTS.md.

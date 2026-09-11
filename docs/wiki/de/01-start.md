@@ -6,6 +6,6 @@ Erstelle eine Verbindung in Craft Connect und kopiere API-URL und separaten API-
 
 Beginne mit einem Lesezugriff: Craft Documents → Document → List oder Craft Daily Notes → Task → Get mit Inbox. Führe den Node aus und prüfe die Ausgabe. Eine leere Liste kann eine erfolgreiche Antwort sein.
 
-Die gemeinsame Installation ist n8n.apps3k.com. Setze keine lokale n8n-Instanz voraus. Das Repository bietet Entwicklungsbefehle; diese bezeichnen keinen bereits laufenden Dienst.
+Verwende deine eigene n8n-Installation. Die Installation von Community-Nodes kann Administrationsrechte erfordern. Wende dich an deine n8n-Administration, wenn die Installationsoption fehlt.
 
-Node-Version 2 ist nach PR #14 auf main implementiert. Damit ist noch nicht belegt, dass sie veröffentlicht oder auf deinem n8n-Host installiert ist. Der automatische Veröffentlichungsversuch für 2.3.2 am 11.09.2026 ist fehlgeschlagen. Prüfe Paket- und Node-Version vor der Verwendung von v2-Funktionen.
+Prüfe die installierte Paket- und Node-Version vor der Verwendung versionsabhängiger Funktionen. Einträge unter Unreleased sind keine Zusage, dass die Funktion bereits im veröffentlichten Paket verfügbar ist.

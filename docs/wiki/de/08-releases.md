@@ -1,13 +1,13 @@
-# 08 · Releases, Mitarbeit und Dokumentation
+# 08 · Versionen und Updates
 
-Plane Craft Nodes (Workspace apps3k, Kürzel CRNO) ist die maßgebliche Aufgabenverwaltung. GitHub Issues/Projects sind nicht erforderlich. Verwende einen kurzlebigen Branch von main, Conventional Commits und einen PR nach main. Verlinke das Plane-Issue direkt mit CRNO-Kennung im PR und den PR zurück in Plane.
+[Öffentliches Changelog öffnen](craftdocs://open?blockId=3E5464FC-C3C6-4387-ADFB-DE3D5CAFC8C7&spaceId=795ef48a-f554-14a8-afa5-a503c41068a6): veröffentlichte Versionshinweise und Änderungen in Entwicklung.
 
-Der Eigentümer führt Merge und Release aus. Agenten starten keine Releases, veröffentlichen keine Pakete und ändern keine Produktionsinhalte ohne ausdrücklich autorisierten Umfang. CodeRabbit-Hinweise werden geprüft und bearbeitet; ohne Antwort darf eine Review nicht als bestanden gelten.
+Unreleased kennzeichnet Änderungen, deren Veröffentlichung als Paket noch nicht bestätigt ist. Prüfe die verfügbare Version in der npm-Registry und die installierte Version in n8n, bevor du eine neue Funktion voraussetzt.
 
-npm run release ruft n8n-node release auf. Zusätzlich besitzt das Repository einen automatischen npm-publish-Workflow auf main. Prüfe dessen Ergebnis und die Registry vor einer Release-Meldung. Wiederhole das Publishing nicht blind: Prüfe Version, Zugangsdaten und bereits abgeschlossene Schritte.
+Paket-Version und Node-Version sind unterschiedlich. Ein Paket-Update kann Node v2 ergänzen, während gespeicherte Workflows weiterhin Node v1 verwenden.
 
-Stand 11.09.2026: PR #14 ist gemergt. Der automatische npm-Publish für 2.3.2 scheiterte mit HTTP 404. Der bisherige GitHub-Wiki-Sync scheiterte am nicht initialisierten Wiki; diese Dokumentationsmigration entfernt den Sync. CRNO-3 erfasst die noch offene Live-Abnahme.
+Sichere deine Workflows vor einem Paket-Update und lies die Versionshinweise. Prüfe bestehende Workflows und neue Funktionen in einer geeigneten Testumgebung.
 
-Das Wiki wird in den beiden festgelegten Craft-Seiten mit gleicher deutscher und englischer Kapitelstruktur gepflegt. docs/wiki/de und docs/wiki/en enthalten versionierte Markdown-Gegenstücke. Aktualisiere bei Verhaltens- oder Dokumentationsänderungen beide Sprachen sowie README und CHANGELOG. Erhalte die Craft-Seiten-IDs, lies vorhandene Inhalte, ändere gezielt die vorgesehenen Abschnitte und prüfe sie anschließend durch Rücklesen. Eine automatische Craft-Veröffentlichung ist nicht eingerichtet.
+Workflows mit Version 1 behalten Parameterdarstellung und String-IDs. Auswahlen in Version 2 unterstützen Namen und direkte IDs. Prüfe bei einem neu konfigurierten Node die gewählten Ressourcen.
 
-README bleibt der kurze Repo-Einstieg; CHANGELOG dokumentiert wesentliche Änderungen und trennt Unreleased von veröffentlichten Versionen. Die bisherige Screenshot-Anleitung auf craft-n8n.apps3k.com ist ergänzend. Plane enthält Aufgaben und Abnahmenachweise, keine kopierten Handbuchtexte.
+Das deutsche und englische Handbuch behandeln dieselben Nutzungsthemen. Wechsle die Sprache über den Link auf der Startseite. Die Handbücher enthalten keine Installations- oder Betriebsanweisungen für eine bestimmte Organisation.

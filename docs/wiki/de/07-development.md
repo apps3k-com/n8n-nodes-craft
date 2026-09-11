@@ -1,13 +1,13 @@
-# 07 · Architektur und Entwicklung
+# 07 · Workflow-Beispiele
 
-Das Paket wird in TypeScript mit @n8n/node-cli gebaut. CraftDocuments und CraftDailyNotes enthalten Node-Definitionen, Ressourcen und Auswahlmethoden. nodes/shared enthält gemeinsame Mapping- und UI-Helfer; credentials die beiden Authentifizierungsdefinitionen. Das Build-Ergebnis liegt in dist/.
+Dokumentliste lesen: Verbinde Manual Trigger mit Craft Documents, wähle Document → List, hinterlege die Zugangsdaten und führe den Node aus. Prüfe die zurückgegebenen IDs vor weiteren abhängigen Schritten.
 
-Zugangsdaten senden den API-Key als Authorization: Bearer und verwenden die konfigurierte Verbindungs-URL. Behandle Selected Documents, Daily Notes und Space als getrennte Verträge. Ein Space-Endpunkt ist keine fehlende Funktion einer Selected-Documents-Verbindung.
+Tasks lesen: Wähle mit einer passenden Space-Verbindung und Node v2 Task → Get und Inbox. Für Tasks eines bestimmten Dokuments verwende den Bereich Document und wähle das Dokument aus.
 
-Verwende eine vom installierten n8n unterstützte Node.js-Version. package.json verlangt >=20.15.0; der isolierte Test mit n8n 2.38.7 lief unter Node 24.19.0. pnpm-lock.yaml ist versioniert. Installiere mit pnpm install und untersuche ignorierte Dependency-Build-Skripte, statt Vertrauensregeln ungeprüft zu ändern.
+Collection-Zeile ändern: Wähle die Collection, verwende in v2 Item Selection → Select Item oder übergib eine vorhandene Zeilen-ID. Fülle nur die Felder aus, die du ändern möchtest.
 
-Vor einem PR: npm test, npm run build, npm run lint, npm run check:docstrings und bash .claude/hooks/guard-tests.sh. Die JSDoc-Prüfung misst benannte produktive Funktionen mit mindestens 80 % Abdeckung.
+Datei hochladen: Verbinde einen Node mit Binärdaten mit File → Upload. Passe Input Binary Field an den Namen der Binär-Eigenschaft an und wähle Seite, Datum oder benachbarten Block als Ziel.
 
-npm run dev startet optional eine lokale Entwicklungsumgebung. Ein vorhandener lokaler Dienst wird nicht vorausgesetzt. scripts/runtime-smoke.cjs verwendet ein temporäres Profil und einen Loopback-Fixture-Server; N8N_BINARY muss auf eine installierte n8n-Datei zeigen. Das Skript nutzt synthetische Zugangsdaten und ist kein Produktions-Schreibtest.
+Bestehenden Task ändern: Übernimm die Task-ID aus einem vorherigen Schritt und verwende Update. Nutze Add nur, wenn ein neuer Task entstehen soll. Wiederholtes Add kann einen weiteren Task erzeugen.
 
-Bewahre beim Ausbau von v2 die Parameter- und Ausdrucksverarbeitung gespeicherter v1-Nodes. Prüfe Request-Bodies, Fehlerweitergabe und Auswahlfelder gegen echte API- und n8n-Verträge. docs/CONNECT_API_COVERAGE.md und docs/VALIDATION.md halten Vertragsabdeckung und Nachweisgrenzen fest.
+Verwende ein eigenes Testdokument für schreibende Beispiele. Lies Änderungen zurück, bevor du den Workflow auf weitere Items ausweitest. Beginne mit einem einzelnen eingehenden Item und erweitere die Eingabe erst bei korrektem Ergebnis.

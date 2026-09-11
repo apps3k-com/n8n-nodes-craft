@@ -1,13 +1,13 @@
-# 07 · Architecture and development
+# 07 · Workflow examples
 
-The package is TypeScript built with @n8n/node-cli. CraftDocuments and CraftDailyNotes contain the node definitions, resources and load-options methods. nodes/shared holds shared mapping and UI helpers; credentials contains the two authentication definitions. Build output is dist/.
+Read a document list: connect Manual Trigger to Craft Documents, select Document → List, configure credentials and execute. Inspect the returned IDs before adding dependent operations.
 
-Credentials send Authorization: Bearer with the API key and use the configured connection base URL. Keep Selected Documents, Daily Notes and Space contracts separate; a Space-only endpoint is not a missing Selected Documents capability.
+Read tasks: with a compatible Space connection and node v2, choose Task → Get and Inbox. To read tasks in a particular document, choose Document scope and select that document.
 
-Use the Node.js version supported by the installed n8n runtime. package.json declares >=20.15.0; the isolated n8n 2.38.7 check used Node 24.19.0. The repository commits pnpm-lock.yaml. Install dependencies with pnpm install and investigate ignored dependency build scripts instead of changing trust policies blindly.
+Update a collection row: select the collection, use Item Selection → Select Item in v2 or map an existing row ID, then supply only the fields you want to change.
 
-Before a PR run npm test, npm run build, npm run lint, npm run check:docstrings and bash .claude/hooks/guard-tests.sh. The JSDoc gate measures named production callables with a minimum of 80%.
+Upload a file: connect a node producing binary data to File → Upload. Match Input Binary Field to that binary property and choose the intended page/date or sibling block.
 
-npm run dev is an optional local development launcher. No local service is assumed. scripts/runtime-smoke.cjs uses a temporary profile and a loopback fixture; N8N_BINARY must point to an installed n8n executable. It uses synthetic credentials and must not be repurposed as a production write test.
+Update an existing task: retain the task ID returned by an earlier step and pass it to Update. Use Add only when a new task is intended. Repeating Add can create another task.
 
-Preserve saved v1 parameter and expression behavior when extending v2. Validate request bodies, error propagation and resource selection against the real API and n8n behavior. Read docs/CONNECT_API_COVERAGE.md and docs/VALIDATION.md for the current contract and evidence boundaries.
+Use a dedicated test document for write examples. Read changes back before extending the workflow to additional items. Start with a single input item, then expand the input once the result is correct.

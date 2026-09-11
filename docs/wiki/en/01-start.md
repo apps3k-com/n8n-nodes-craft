@@ -6,6 +6,6 @@ Create a Craft Connect connection, then copy its API URL and separate API key. I
 
 Start with a read: Craft Documents → Document → List, or Craft Daily Notes → Task → Get with Inbox scope. Execute and inspect the output. An empty list can be a successful response.
 
-For the shared installation use n8n.apps3k.com. Do not assume a local n8n instance exists. The repository provides development commands, but they do not describe an already running service.
+Use your own n8n installation. Community-node installation may require administrator access; contact your n8n administrator if the installation option is unavailable.
 
-Node version 2 is implemented on main after PR #14. This does not prove that it is published or installed on your n8n host. The automatic 2.3.2 publish attempt on 2026-09-11 failed. Confirm the installed package and node version before following v2-only instructions.
+Check the installed package and node version before using version-specific features. Features listed under Unreleased are not a promise of availability in the published package.

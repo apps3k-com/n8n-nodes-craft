@@ -51,10 +51,23 @@ tasks, file upload; usable as AI agent tools). Published to npm. Repo:
   `npm run lint` / `npm run lint:fix` · `npm test` (`vitest run`) ·
   `npm run release` (`n8n-node release` — owner only)
 
-## Documentation workflow
+## Documentation workflow and audience boundary
 
 - The wiki lives in the existing Craft pages: [Deutsch](craftdocs://open?blockId=7BB4EA02-A628-45A2-BC16-539C59724748&spaceId=795ef48a-f554-14a8-afa5-a503c41068a6) and [English](craftdocs://open?blockId=F04E0ABB-8657-47F4-8350-A20206E0A6FB&spaceId=795ef48a-f554-14a8-afa5-a503c41068a6).
   Space: `795ef48a-f554-14a8-afa5-a503c41068a6`. Preserve these page IDs and their language assignment.
+- These German/English handbooks, README, CHANGELOG and `docs/` are public.
+  Include product usage and generic examples only. Never publish internal hosts,
+  account/vault identifiers, credential procedures, private tracker references,
+  customer inventory, deployment logs or organization-specific runbooks there.
+- Internal operations, architecture/runbooks, access procedures and detailed test
+  evidence belong only in [Internal Documentation](craftdocs://open?blockId=D74221B9-E838-4693-B53B-78574BBB39B6&spaceId=795ef48a-f554-14a8-afa5-a503c41068a6).
+  Do not mirror those details into public Markdown or link to this page from the
+  public handbooks. This agent instruction file records the destination only.
+- The [public Changelog](craftdocs://open?blockId=3E5464FC-C3C6-4387-ADFB-DE3D5CAFC8C7&spaceId=795ef48a-f554-14a8-afa5-a503c41068a6)
+  is the Craft counterpart of `CHANGELOG.md`. Keep user-facing release notes in
+  sync, retain historical version/date boundaries and keep Unreleased separate.
+- Before publication, review both languages and the changelog for internal data.
+  Inspect the intended Craft page first, preserve existing IDs and read changes back.
 - Use the **Craft apps3k shared** MCP. Resolve the link and read the target before
   edits; use the existing chapters instead of creating duplicate roots. Updates
   to the user-designated documentation are authorized within the requested scope.
@@ -77,6 +90,8 @@ tasks, file upload; usable as AI agent tools). Published to npm. Repo:
 | Wiki and navigation | Craft roots above; `docs/wiki/Home.md` |
 | User guide: setup, tasks, collections, uploads | `docs/wiki/de/` / `docs/wiki/en/`, chapters 1–5 |
 | Troubleshooting and validation | Chapter 6; `docs/VALIDATION.md` |
-| Node/credential architecture and development | Chapter 7 |
-| Releases and contribution workflow | Chapter 8 |
+| User workflow examples | Public chapter 7 |
+| Internal architecture, operations and development | Internal Documentation above |
+| User versions and updates | Public chapter 8 |
+| Internal release and contribution workflow | Internal Documentation above |
 | Supplemental screenshot guide | https://craft-n8n.apps3k.com |

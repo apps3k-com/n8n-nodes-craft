@@ -1,13 +1,13 @@
-# 06 · Fehlerbehebung und Nachweise
+# 06 · Fehlerbehebung
 
-Fehlende v2-Felder: Prüfe installierte Paket- und Node-Version. Ein Merge oder erfolgreicher Build aktualisiert n8n.apps3k.com nicht. Gespeicherte v1-Nodes behalten absichtlich ihre bisherige Oberfläche.
+Fehlende Felder: Prüfe installierte Paket- und Node-Version. Gespeicherte Nodes der Version 1 behalten ihre bisherige Oberfläche. Lass das Paket durch deine n8n-Administration aktualisieren, sobald eine geeignete Version verfügbar ist.
 
-401/403: Prüfe API-URL, separaten Key und Verbindungsbereich. Untersuche die tatsächliche Antwort, ohne Geheimnisse zu protokollieren. Beim Test am 11.09.2026 erhielt Python urllib Cloudflare Error 1010 (browser_signature_banned); Node.js fetch funktionierte mit derselben Verbindung. Ein 403 bedeutet daher nicht automatisch einen falschen Key.
+Verbindungsfehler: Prüfe Craft-Connect-API-URL, separaten API-Key und gewählten Bereich. Verwende den Verbindungstest der Zugangsdaten. Ein Authentifizierungs- oder Zugriffsfehler ist keine leere Ergebnisliste.
 
-Leere Auswahl: Unterscheide eine erfolgreiche leere Antwort von einem Fehler. Task-Bereiche können leer sein. Prüfe Dokumentbereich und Berechtigungen. Collections benötigen ein lesbares Schema und erreichbare Relationsziele.
+Leere Auswahl: Prüfe, ob die Verbindung die gewünschten Dokumente oder Tasks lesen kann. Ein Task-Bereich kann tatsächlich leer sein. Collection-Felder benötigen ein lesbares Schema und erreichbare Relationsziele.
 
-Agent-Zugriff auf Zugangsdaten: Verwende den vorhandenen 1Password-Service-Account und prüfe seine Identität. Eine fehlende Shell-Sitzung ist kein Grund für eine Desktop-Freigabe, wenn der Service Account verfügbar ist. Zugangsdaten gehören weder in Git noch in Logs.
+Ungültige Auswahl: Wähle Dokument, Task oder Collection nach einem Wechsel der Zugangsdaten erneut aus. Direkte IDs müssen zu Ressourcen gehören, die über die gewählte Verbindung erreichbar sind.
 
-Dokumentierte Nachweise: 54 Tests, Build/Lint, 100 % gemessene JSDoc-Abdeckung und zehn isolierte n8n-Fixture-Szenarien bestanden. Live-Auswahlen lieferten 510 eindeutige Dokumente über sechs Seiten, neun flach dargestellte Ordner und 23 Collections. Das ist eine datierte Momentaufnahme, keine Zusage zum aktuellen Bestand.
+Upload-Fehler: Prüfe die Binärdaten im eingehenden Item und den Namen unter Input Binary Field. Kontrolliere Zielseite, Datum oder benachbarten Block und verwende genau einen Positionsmodus.
 
-Live-Schreibzugriffe mit Rücklesen und die v2-Abnahme auf dem gemeinsamen Host bleiben in Plane CRNO-3 offen. Nenne bei Fehlern Operation, Node-/Paket-Version, Bereich, HTTP-Status und eine bereinigte Fehlermeldung. Teile keine API-Keys oder Verbindungs-URLs mit Zugangsdaten.
+Nenne bei einer Fehlermeldung Paket-/Node-Version, Operation, erwartetes Verhalten und eine bereinigte Fehlermeldung. Entferne API-Keys, Zugangsangaben in Verbindungs-URLs, Dokumentinhalte und personenbezogene Daten aus Beispielen.
