@@ -1,9 +1,9 @@
 /**
  * BLOCK INSERT OPERATION
  * POST /blocks - Insert content into a document
- * 
+ *
  * KEY DIFFERENCE: Uses 'pageId' in position instead of 'date'
- * 
+ *
  * SIMPLE APPROACH: Send markdown as single text block, Craft API parses it automatically!
  * The API splits markdown into proper blocks (headers, code, paragraphs) server-side.
  */
@@ -22,7 +22,8 @@ const showOnlyForBlockInsert = { operation: ['insert'], resource: ['block'] };
  */
 function buildPositionObject(context: IExecuteSingleFunctions): IDataObject {
 	const positionType = (context.getNodeParameter('positionType', 'end') as string) || 'end';
-	const targetPageId = (context.getNodeParameter('targetPageId', '') as string) || '';
+	const rawTarget = context.getNodeParameter('targetPageId', '') as string | { value: string };
+	const targetPageId = typeof rawTarget === 'string' ? rawTarget : rawTarget.value;
 	const referenceBlockId = (context.getNodeParameter('referenceBlockId', '') as string) || '';
 
 	const position: IDataObject = {
@@ -74,6 +75,15 @@ export async function blockInsertPreSend(
 		(requestBody.position as IDataObject).siblingId = String(position.siblingId);
 	}
 
+	// v2 uses the documented mutually exclusive page/sibling position forms.
+	if (this.getNode().typeVersion >= 2) {
+		if (['before', 'after'].includes(String(position.position))) {
+			if (!position.siblingId) throw new Error('Choose a reference block for Before or After.');
+			requestBody.position = { position: position.position, siblingId: position.siblingId };
+		} else if (!position.pageId) {
+			throw new Error('Choose a target document before inserting content.');
+		}
+	}
 	requestOptions.body = requestBody;
 	return requestOptions;
 }
@@ -89,7 +99,8 @@ export const blockInsertDescription: INodeProperties[] = [
 		},
 		default: '',
 		required: true,
-		description: 'Select a document to insert into. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+		description:
+			'Select a document to insert into. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
 		displayOptions: { show: showOnlyForBlockInsert },
 	},
 
@@ -103,8 +114,10 @@ export const blockInsertDescription: INodeProperties[] = [
 		},
 		default: '',
 		required: true,
-		placeholder: '# Meeting Notes\n\n- Discussed timeline\n- Assigned tasks\n\n```javascript\nconsole.log("code blocks work too!");\n```\n\nNext steps...',
-		description: 'Paste markdown content. Craft API automatically parses it into proper blocks (headers, code, lists, etc.).',
+		placeholder:
+			'# Meeting Notes\n\n- Discussed timeline\n- Assigned tasks\n\n```javascript\nconsole.log("code blocks work too!");\n```\n\nNext steps...',
+		description:
+			'Paste markdown content. Craft API automatically parses it into proper blocks (headers, code, lists, etc.).',
 		displayOptions: { show: showOnlyForBlockInsert },
 	},
 

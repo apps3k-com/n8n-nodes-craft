@@ -1,10 +1,10 @@
 /**
  * BLOCK SEARCH OPERATION
  * GET /blocks/search - Search content within a specific document
- * 
+ *
  * KEY DIFFERENCE: Uses 'documentId' parameter instead of 'date'
  */
-import type { INodeProperties } from 'n8n-workflow';
+import type { INodeProperties, IExecuteSingleFunctions, IHttpRequestOptions } from 'n8n-workflow';
 
 const showOnlyForBlockSearch = { operation: ['searchInDocument'], resource: ['block'] };
 
@@ -19,7 +19,8 @@ export const blockSearchDescription: INodeProperties[] = [
 		},
 		default: '',
 		required: true,
-		description: 'Select a document to search within. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+		description:
+			'Select a document to search within. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
 		displayOptions: { show: showOnlyForBlockSearch },
 		routing: {
 			send: {
@@ -106,3 +107,21 @@ export const blockSearchDescription: INodeProperties[] = [
 		],
 	},
 ];
+
+/** Select the query key documented for the credential's explicit connection scope. */
+export async function blockSearchPreSend(
+	this: IExecuteSingleFunctions,
+	options: IHttpRequestOptions,
+): Promise<IHttpRequestOptions> {
+	if (
+		this.getNode().typeVersion >= 2 &&
+		this.getNodeParameter('connectionScope', 'selected') === 'space'
+	) {
+		const raw = this.getNodeParameter('documentId', '') as string | { value: string };
+		const id = typeof raw === 'string' ? raw : raw.value;
+		if (typeof id !== 'string' || !id.trim()) throw new Error('Choose a document to search.');
+		options.qs = { ...options.qs, blockId: id };
+		delete options.qs.documentId;
+	}
+	return options;
+}

@@ -9,7 +9,7 @@ import { blockInsertDescription, blockInsertPreSend } from './insert';
 import { blockUpdateDescription } from './update';
 import { blockDeleteDescription } from './delete';
 import { blockMoveDescription } from './move';
-import { blockSearchDescription } from './search';
+import { blockSearchDescription, blockSearchPreSend } from './search';
 import { uploadPreSend, uploadPostReceive } from '../../../shared/uploadUi';
 
 const showOnlyForBlocks = { resource: ['block'] };
@@ -84,6 +84,7 @@ export const blockDescription: INodeProperties[] = [
 						method: 'GET',
 						url: '/blocks/search',
 					},
+					send: { preSend: [blockSearchPreSend] },
 				},
 			},
 			{

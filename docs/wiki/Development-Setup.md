@@ -25,6 +25,7 @@ npm run dev      # n8n-node dev — runs the nodes in a local n8n for iteration
 npm run lint     # n8n-node lint   (npm run lint:fix to autofix)
 npm test         # vitest run
 npm run build    # n8n-node build → dist/
+npm run check:docstrings # named production callables, minimum 80% JSDoc
 ```
 
 ## Releasing (owner only)

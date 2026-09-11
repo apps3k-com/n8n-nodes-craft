@@ -46,6 +46,7 @@
 		"lint:fix": "n8n-node lint --fix",
 		"test": "vitest run",
 		"test:watch": "vitest",
+		"check:docstrings": "node scripts/check-docstrings.cjs",
 		"release": "n8n-node release",
 		"prepublishOnly": "n8n-node prerelease"
 	},
