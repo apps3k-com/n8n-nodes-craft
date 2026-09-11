@@ -1,0 +1,99 @@
+{
+  "spaceId": "795ef48a-f554-14a8-afa5-a503c41068a6",
+  "updatedAt": "2026-09-11",
+  "languages": {
+    "en": {
+      "rootBlockId": "F04E0ABB-8657-47F4-8350-A20206E0A6FB",
+      "title": "Craft Nodes for n8n - User Documentation",
+      "chapters": [
+        {
+          "blockId": "dc4f5bd9-7b29-2fd9-4778-c15cce206119",
+          "title": "01 · Quick start",
+          "file": "en/01-start.md"
+        },
+        {
+          "blockId": "90794cc8-1d27-3b13-e77d-5b2516eb7dc4",
+          "title": "02 · Connections and nodes",
+          "file": "en/02-connections.md"
+        },
+        {
+          "blockId": "995c9a8b-c029-42ff-27a8-b7008221af52",
+          "title": "03 · Tasks",
+          "file": "en/03-tasks.md"
+        },
+        {
+          "blockId": "147b2838-a0c9-0af9-bc7d-a82114200198",
+          "title": "04 · Collections",
+          "file": "en/04-collections.md"
+        },
+        {
+          "blockId": "882c2c67-460d-09b2-1428-c5d434f53c38",
+          "title": "05 · Blocks, files and workflows",
+          "file": "en/05-blocks-files.md"
+        },
+        {
+          "blockId": "fb9cdefc-ff81-5114-24c0-cf7bb686a134",
+          "title": "06 · Troubleshooting",
+          "file": "en/06-troubleshooting.md"
+        },
+        {
+          "blockId": "6ee0114b-943b-1799-ceff-254ed59f87d0",
+          "title": "07 · Workflow examples",
+          "file": "en/07-development.md"
+        },
+        {
+          "blockId": "6a7212b6-879b-04f0-7c40-ff27f04a4165",
+          "title": "08 · Versions and updates",
+          "file": "en/08-releases.md"
+        }
+      ]
+    },
+    "de": {
+      "rootBlockId": "7BB4EA02-A628-45A2-BC16-539C59724748",
+      "title": "Craft Nodes für n8n - Benutzerhandbuch",
+      "chapters": [
+        {
+          "blockId": "a6bea2c0-3190-68d7-58ca-c106436e9443",
+          "title": "01 · Schnellstart",
+          "file": "de/01-start.md"
+        },
+        {
+          "blockId": "0f2c5fb2-7340-7020-6fd5-def7256b1de5",
+          "title": "02 · Verbindungen und Nodes",
+          "file": "de/02-connections.md"
+        },
+        {
+          "blockId": "d4220803-18bb-78e8-413a-6e3456ad727d",
+          "title": "03 · Tasks",
+          "file": "de/03-tasks.md"
+        },
+        {
+          "blockId": "475b34d8-9840-0d08-0c46-e1d382667de2",
+          "title": "04 · Collections",
+          "file": "de/04-collections.md"
+        },
+        {
+          "blockId": "0c43168a-e1f2-f25f-5f6c-7dc04fd9681c",
+          "title": "05 · Blöcke, Dateien und Workflows",
+          "file": "de/05-blocks-files.md"
+        },
+        {
+          "blockId": "3a1aa55a-1d53-d284-1036-7abad6eae07b",
+          "title": "06 · Fehlerbehebung",
+          "file": "de/06-troubleshooting.md"
+        },
+        {
+          "blockId": "01358239-43bf-2877-6f86-c1d41d1e60ed",
+          "title": "07 · Workflow-Beispiele",
+          "file": "de/07-development.md"
+        },
+        {
+          "blockId": "64096a0e-b94b-f2e1-76b7-447b8c1d2432",
+          "title": "08 · Versionen und Updates",
+          "file": "de/08-releases.md"
+        }
+      ]
+    }
+  },
+  "publicChangelogBlockId": "3E5464FC-C3C6-4387-ADFB-DE3D5CAFC8C7"
+}

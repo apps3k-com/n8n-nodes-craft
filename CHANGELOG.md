@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable user-facing changes to this project are documented here and in the [public Craft changelog](craftdocs://open?blockId=3E5464FC-C3C6-4387-ADFB-DE3D5CAFC8C7&spaceId=795ef48a-f554-14a8-afa5-a503c41068a6).
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -9,9 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Structured German and English Craft handbooks with eight matching chapters, language navigation and versioned Markdown counterparts.
 - Node version 2 with searchable document/collection selectors and explicit direct-ID mode, while keeping version 1 available for saved workflows.
 - Explicit Space connection scope with document create/move/trash, folder discovery, and task get/add/update/delete, including document-scoped tasks.
 - Named task/folder selection, local picker pagination, version compatibility checks, and a repeatable JSDoc coverage gate.
+
+### Changed
+
+- Public documentation is available in matching German and English Craft handbooks with user-focused examples and troubleshooting.
+- Separated public user documentation and release notes from internal operational documentation.
 
 ### Fixed
 
@@ -276,17 +282,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **Critical**: Code blocks with internal blank lines no longer cause 400 validation errors
-  - Root cause: `splitByParagraphs()` was splitting code blocks on `\n\n`, creating invalid fragments
+  - Root cause: `splitByParagraphs()` was splitting code blocks at blank lines, creating invalid fragments.
   - Fix: Extract code blocks BEFORE paragraph splitting using regex `/```[\s\S]*?```/g`
   - Code blocks are now preserved as single units and sent without textStyle (API auto-detects)
   - This fixes issues with markdown like:
-    ```
+    ````
     ```other
     line 1
     
     line 2
     ```
-    ```
+    ````
 
 ## [1.0.8] - 2025-11-29
 

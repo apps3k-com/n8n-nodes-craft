@@ -12,6 +12,7 @@ tasks, file upload; usable as AI agent tools). Published to npm. Repo:
 ## Core rules (apps3k common workflow)
 
 - **Language:** chat with the user = German. Code, comments, commits, PRs = English.
+  The Craft wiki and its repository counterparts are maintained in German and English.
 - **Memory:** only **apps3k-memory** (`https://mcp-auth.apps3k.com/mcp/apps3k-memory`).
   Search it before any work; if a memory references a work item, read it. Store
   after each step. If the MCP is down, tell the user, cache memories and add them
@@ -50,11 +51,47 @@ tasks, file upload; usable as AI agent tools). Published to npm. Repo:
   `npm run lint` / `npm run lint:fix` · `npm test` (`vitest run`) ·
   `npm run release` (`n8n-node release` — owner only)
 
+## Documentation workflow and audience boundary
+
+- The wiki lives in the existing Craft pages: [Deutsch](craftdocs://open?blockId=7BB4EA02-A628-45A2-BC16-539C59724748&spaceId=795ef48a-f554-14a8-afa5-a503c41068a6) and [English](craftdocs://open?blockId=F04E0ABB-8657-47F4-8350-A20206E0A6FB&spaceId=795ef48a-f554-14a8-afa5-a503c41068a6).
+  Space: `795ef48a-f554-14a8-afa5-a503c41068a6`. Preserve these page IDs and their language assignment.
+- These German/English handbooks, README, CHANGELOG and `docs/` are public.
+  Include product usage and generic examples only. Never publish internal hosts,
+  account/vault identifiers, credential procedures, private tracker references,
+  customer inventory, deployment logs or organization-specific runbooks there.
+- Internal operations, architecture/runbooks, access procedures and detailed test
+  evidence belong only in [Internal Documentation](craftdocs://open?blockId=D74221B9-E838-4693-B53B-78574BBB39B6&spaceId=795ef48a-f554-14a8-afa5-a503c41068a6).
+  Do not mirror those details into public Markdown or link to this page from the
+  public handbooks. This agent instruction file records the destination only.
+- The [public Changelog](craftdocs://open?blockId=3E5464FC-C3C6-4387-ADFB-DE3D5CAFC8C7&spaceId=795ef48a-f554-14a8-afa5-a503c41068a6)
+  is the Craft counterpart of `CHANGELOG.md`. Keep user-facing release notes in
+  sync, retain historical version/date boundaries and keep Unreleased separate.
+- Before publication, review both languages and the changelog for internal data.
+  Inspect the intended Craft page first, preserve existing IDs and read changes back.
+- Use the **Craft apps3k shared** MCP. Resolve the link and read the target before
+  edits; use the existing chapters instead of creating duplicate roots. Updates
+  to the user-designated documentation are authorized within the requested scope.
+- Keep the same numbered chapter structure in both languages. Update the Craft
+  text and `docs/wiki/de/` / `docs/wiki/en/` counterparts together, then verify
+  content by reading it back. If access fails, finish the repo draft and clearly
+  report which Craft updates remain pending; never claim they were published.
+- Craft is the maintained wiki; repository Markdown is its versioned counterpart.
+  Read both before changes and reconcile differences without overwriting edits.
+  `docs/wiki/craft-pages.json` maps chapters to stable Craft block IDs.
+- Update README entry links and CHANGELOG for meaningful documentation changes.
+  Keep unreleased implementation separate from verified npm/host availability.
+- GitHub Wiki is retired. Do not initialize it or restore the old wiki-sync job.
+  There is no automatic Craft publishing workflow. Plane remains the task tracker.
+
 ## Detail references (read on demand — do not duplicate here)
 
 | Topic | Where |
 |---|---|
-| Node/credential architecture | GitHub Wiki → `docs/wiki/Architecture.md` |
-| Local build/test/release | GitHub Wiki → `docs/wiki/Development-Setup.md` |
-| Code/commit/test conventions | GitHub Wiki → `docs/wiki/Conventions.md` |
-| End-user guide (with screenshots) | https://craft-n8n.apps3k.com |
+| Wiki and navigation | Craft roots above; `docs/wiki/Home.md` |
+| User guide: setup, tasks, collections, uploads | `docs/wiki/de/` / `docs/wiki/en/`, chapters 1–5 |
+| Troubleshooting and validation | Chapter 6; `docs/VALIDATION.md` |
+| User workflow examples | Public chapter 7 |
+| Internal architecture, operations and development | Internal Documentation above |
+| User versions and updates | Public chapter 8 |
+| Internal release and contribution workflow | Internal Documentation above |
+| Supplemental screenshot guide | https://craft-n8n.apps3k.com |

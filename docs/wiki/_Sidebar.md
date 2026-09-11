@@ -1,9 +1,7 @@
-**[🏠 Home](Home)**
+# Documentation
 
-**🔧 Technical (EN)**
-- [Architecture](Architecture)
-- [Development Setup](Development-Setup)
-- [Conventions](Conventions)
+- [Home / Start](Home.md)
+- [Deutsch](de/README.md)
+- [English](en/README.md)
 
-**📘 End-user guide**
-- [craft-n8n.apps3k.com](https://craft-n8n.apps3k.com) (external, with screenshots)
+Navigation is maintained in Craft; this file preserves legacy repository links.
