@@ -19,7 +19,7 @@ Keep saved node version 1 and string parameters supported. Introduce node versio
 
 ## Validation boundaries
 
-No dedicated Craft test connection or local n8n test instance was provided at preflight; requested from the user. The connected production Craft tool is not a substitute for node credential tests. Unit/contract tests prove local behavior only. Live API observations require real read-only calls; writing tests require an explicitly designated test environment.
+At preflight no test connection was provided. The user subsequently designated a Craft test connection and n8n.apps3k.com; see the resulting live checks and isolated local runtime evidence in VALIDATION.md. The connected production Craft tool is not a substitute for node credential tests. Unit/contract tests prove local behavior only. Live API observations require real read-only calls; writing tests require an explicitly designated test environment.
 
 The committed pnpm lockfile installs dependencies, but pnpm 11 reports ignored dependency build scripts (`eslint-plugin-n8n-nodes-base`, `unrs-resolver`) and exits nonzero. Baseline tests/build/lint nevertheless pass; no dependency upgrades or policy changes are needed for these checks.
 

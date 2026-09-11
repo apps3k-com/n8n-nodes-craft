@@ -42,9 +42,32 @@ An isolated loopback-only local n8n startup was attempted with a temporary user
 folder and this branch's dist directory. The initial `npx n8n@latest` install
 stalled in `@confluentinc/kafka-javascript` native dependency configuration and
 was stopped. Direct startup from the interrupted install failed on the missing
-`@n8n/expression-runtime` module. A separate installation without dependency
-scripts is being evaluated; final status is recorded below. No editor E2E pass
-is claimed from these attempts.
+`@n8n/expression-runtime` module. Recovery succeeded: installed n8n 2.38.7 under Node 24.19.0 with dependency
+scripts disabled, rebuilt only sqlite3, then started on 127.0.0.1:5689.
+Health check returned `{status:"ok"}`. The browser loaded Craft Documents v2,
+its document locator, explicit Space selector, Task CRUD, scoped task picker
+and From List/By ID modes. This is a local editor smoke check, not a Craft
+live-write test.
+
+`scripts/runtime-smoke.cjs` then imported fixture-only credentials and a
+workflow into a separate temporary n8n profile. Ten steps executed successfully:
+folder listing with its default operation, document create/move/trash, task
+add/document-scoped get/update/delete, selected collection-row update, and a
+legacy v1 collection read. The loopback server checked Bearer authentication;
+the harness asserted exact request methods, query keys and bodies. No network
+request in this fixture workflow targets Craft.
+
+Reproduce after building the package, using a Node version supported by the
+installed n8n:
+
+```sh
+N8N_BINARY=/absolute/path/to/n8n/bin/n8n node scripts/runtime-smoke.cjs
+```
+
+The script uses a random loopback HTTP port, a temporary n8n profile, and task
+broker port 5691 (must be free). It prints the evidence directory containing
+execution logs and synthetic request captures. Credentials contain only the
+literal `fixture-only`; never replace them with production credentials.
 
 ## Independent review
 
