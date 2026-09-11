@@ -15,21 +15,36 @@ Date: 2026-09-11. Scope: `feature/connect-api-modernization`, based on main `a61
 
 The user designated a test connection in 1Password (item title
 `craft-node-test-instance-api`). No credential values are included here.
-The provided URL/key were loaded directly in memory from the CLI.
+The URL/key were loaded directly into process memory using the existing
+1Password service account. `op whoami` confirmed `SERVICE_ACCOUNT`; no desktop
+approval is needed. No credential values are included in logs or this report.
+
+The initial Python urllib requests returned HTTP 403. Follow-up response
+inspection identified Cloudflare Error 1010 (`browser_signature_banned`).
+Node.js native fetch with the same URL/key returned HTTP 200 for all five
+read-only requests below. The earlier 403 was not proof of invalid credentials.
 
 | Read-only request | Observed result |
 |---|---|
-| GET /connection | HTTP 403 |
-| GET /folders | HTTP 403 |
-| GET /documents | HTTP 403 |
-| GET /collections | HTTP 403 |
-| GET /tasks?scope=inbox | HTTP 403 |
+| GET /connection | HTTP 200; space, utc and urlTemplates present |
+| GET /folders | HTTP 200; 8 root entries |
+| GET /documents | HTTP 200; 510 documents |
+| GET /collections | HTTP 200; 23 collections |
+| GET /tasks?scope=inbox | HTTP 200; empty inbox |
 
-These responses do **not** prove successful authentication or request/response
-compatibility. The cause is unconfirmed. Follow-up credential retrieval failed
-with `authorization timeout`; the user was asked to approve CLI access.
-No test document/task was created, updated, moved or deleted. No production
-content was changed. Live writes and readback remain unproven.
+The compiled branch's actual load-options/search functions were then invoked
+with a minimal n8n context adapter backed by Node.js fetch and the live API:
+
+- Document picker: 510 unique IDs across 6 pages; every result has a label.
+- Folder picker: 9 flattened entries; virtual trash/templates/unsorted excluded.
+- Collection picker: 23 entries.
+- Task picker: active, upcoming, inbox, logbook, and document scopes all succeeded
+  with empty results. Document scope used an ID from the live document picker.
+
+These checks prove live read-response compatibility and picker transformations,
+not execution through the shared n8n runtime. Empty task responses do not prove
+mapping of populated live tasks. No document/task was created, updated, moved
+or deleted. Live writes and readback remain unproven.
 
 ## n8n runtime/editor boundary
 
