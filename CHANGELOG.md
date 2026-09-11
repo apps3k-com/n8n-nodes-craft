@@ -9,9 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Structured German and English Craft handbooks with eight matching chapters, language navigation and versioned Markdown counterparts.
+
 - Node version 2 with searchable document/collection selectors and explicit direct-ID mode, while keeping version 1 available for saved workflows.
 - Explicit Space connection scope with document create/move/trash, folder discovery, and task get/add/update/delete, including document-scoped tasks.
 - Named task/folder selection, local picker pagination, version compatibility checks, and a repeatable JSDoc coverage gate.
+
+### Changed
+
+- Craft apps3k shared is the maintained wiki; repository rules, README and documentation now point to the designated German and English pages.
+- Retired the GitHub Wiki synchronization workflow. Craft updates are performed explicitly and verified by readback; no automatic Craft publisher is configured.
+- Plane Craft Nodes is the authoritative work tracker; PRs reference direct CRNO issue links instead of GitHub closing keywords.
 
 ### Fixed
 

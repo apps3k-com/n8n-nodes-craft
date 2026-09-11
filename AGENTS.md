@@ -12,6 +12,7 @@ tasks, file upload; usable as AI agent tools). Published to npm. Repo:
 ## Core rules (apps3k common workflow)
 
 - **Language:** chat with the user = German. Code, comments, commits, PRs = English.
+  The Craft wiki and its repository counterparts are maintained in German and English.
 - **Memory:** only **apps3k-memory** (`https://mcp-auth.apps3k.com/mcp/apps3k-memory`).
   Search it before any work; if a memory references a work item, read it. Store
   after each step. If the MCP is down, tell the user, cache memories and add them
@@ -50,11 +51,32 @@ tasks, file upload; usable as AI agent tools). Published to npm. Repo:
   `npm run lint` / `npm run lint:fix` · `npm test` (`vitest run`) ·
   `npm run release` (`n8n-node release` — owner only)
 
+## Documentation workflow
+
+- The wiki lives in the existing Craft pages: [Deutsch](craftdocs://open?blockId=7BB4EA02-A628-45A2-BC16-539C59724748&spaceId=795ef48a-f554-14a8-afa5-a503c41068a6) and [English](craftdocs://open?blockId=F04E0ABB-8657-47F4-8350-A20206E0A6FB&spaceId=795ef48a-f554-14a8-afa5-a503c41068a6).
+  Space: `795ef48a-f554-14a8-afa5-a503c41068a6`. Preserve these page IDs and their language assignment.
+- Use the **Craft apps3k shared** MCP. Resolve the link and read the target before
+  edits; use the existing chapters instead of creating duplicate roots. Updates
+  to the user-designated documentation are authorized within the requested scope.
+- Keep the same numbered chapter structure in both languages. Update the Craft
+  text and `docs/wiki/de/` / `docs/wiki/en/` counterparts together, then verify
+  content by reading it back. If access fails, finish the repo draft and clearly
+  report which Craft updates remain pending; never claim they were published.
+- Craft is the maintained wiki; repository Markdown is its versioned counterpart.
+  Read both before changes and reconcile differences without overwriting edits.
+  `docs/wiki/craft-pages.json` maps chapters to stable Craft block IDs.
+- Update README entry links and CHANGELOG for meaningful documentation changes.
+  Keep unreleased implementation separate from verified npm/host availability.
+- GitHub Wiki is retired. Do not initialize it or restore the old wiki-sync job.
+  There is no automatic Craft publishing workflow. Plane remains the task tracker.
+
 ## Detail references (read on demand — do not duplicate here)
 
 | Topic | Where |
 |---|---|
-| Node/credential architecture | GitHub Wiki → `docs/wiki/Architecture.md` |
-| Local build/test/release | GitHub Wiki → `docs/wiki/Development-Setup.md` |
-| Code/commit/test conventions | GitHub Wiki → `docs/wiki/Conventions.md` |
-| End-user guide (with screenshots) | https://craft-n8n.apps3k.com |
+| Wiki and navigation | Craft roots above; `docs/wiki/Home.md` |
+| User guide: setup, tasks, collections, uploads | `docs/wiki/de/` / `docs/wiki/en/`, chapters 1–5 |
+| Troubleshooting and validation | Chapter 6; `docs/VALIDATION.md` |
+| Node/credential architecture and development | Chapter 7 |
+| Releases and contribution workflow | Chapter 8 |
+| Supplemental screenshot guide | https://craft-n8n.apps3k.com |

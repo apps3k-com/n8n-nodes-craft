@@ -4,7 +4,20 @@ n8n community nodes for [Craft](https://www.craft.do)'s Connect API. Two nodes �
 
 > **Fork notice:** This is an independent fork of [`n8n-nodes-craft`](https://github.com/yigitkonur/n8n-nodes-craft) by Yigit Konur, published as `n8n-nodes-craft-apps3k` and updated for Craft's current Connect API (separate **API URL** + **API key**, Bearer auth).
 
-📖 **Full user guide, with screenshots:** **[craft-n8n.apps3k.com](https://craft-n8n.apps3k.com)**
+## Documentation / Dokumentation
+
+The project wiki is maintained in Craft in two matching language editions:
+
+- **[Deutsch — Benutzerhandbuch](craftdocs://open?blockId=7BB4EA02-A628-45A2-BC16-539C59724748&spaceId=795ef48a-f554-14a8-afa5-a503c41068a6)** · [Markdown im Repo](docs/wiki/de/README.md)
+- **[English — User Documentation](craftdocs://open?blockId=F04E0ABB-8657-47F4-8350-A20206E0A6FB&spaceId=795ef48a-f554-14a8-afa5-a503c41068a6)** · [Repository Markdown](docs/wiki/en/README.md)
+
+Each edition covers quick start, connections/nodes, tasks, collections, blocks/files,
+troubleshooting, development and releases. Craft links open the app and require
+access to the shared space. The repository copies can be read without Craft access.
+The [existing screenshot guide](https://craft-n8n.apps3k.com) is supplementary.
+
+GitHub Wiki is no longer used. See [documentation maintenance](docs/wiki/Home.md)
+for the paired-language update procedure.
 
 ## Installation
 
@@ -39,7 +52,7 @@ Documents are addressed by document / page IDs; daily notes by date (`today`, `t
 
 ## Version 2: choose by name
 
-The features below are in the **unreleased** version in this branch. Saved version-1 nodes retain their parameter layout and string IDs. New version-2 nodes offer searchable **From List** and **By ID** modes for documents and collections; expressions remain available. Lists page locally over the resources returned by Craft, which does not document server pagination.
+The features below are implemented on **main** after PR #14; package publication and host installation must be verified separately. The automatic 2.3.2 publish attempt on 2026-09-11 failed, so that run does not establish availability. Saved version-1 nodes retain their parameter layout and string IDs. New version-2 nodes offer searchable **From List** and **By ID** modes for documents and collections; expressions remain available. Lists page locally over the resources returned by Craft, which does not document server pagination.
 
 For **Craft Documents**, set **Connection Scope** to match the connection created in Craft. **Selected Documents** is the default. **All Documents (Space)** enables folder discovery, document creation/moving/trashing, and Space tasks. Selecting Space does not grant permissions to a Selected Documents API URL.
 

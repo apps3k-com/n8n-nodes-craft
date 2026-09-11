@@ -1,1 +1,1 @@
-_Source of truth: `docs/wiki/` in this repo — edit via a pull request; this GitHub Wiki is generated on merge (don't edit it directly)._
+Maintained in the bilingual Craft wiki; versioned counterparts are in `docs/wiki/de/` and `docs/wiki/en/`. See [maintenance](Home.md). No GitHub Wiki sync.

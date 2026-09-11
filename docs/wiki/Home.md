@@ -1,26 +1,42 @@
-# n8n-nodes-craft-apps3k — Documentation
+# Craft Nodes documentation / Dokumentation
 
-**Single source of truth for the technical documentation of this package.** Docs
-live in **`docs/wiki/`** in this repo (PR-reviewed, versioned with the code) and
-are **published to this GitHub Wiki automatically** on merge to `main`.
+The maintained wiki lives in Craft. These Markdown files are its versioned
+counterparts, reviewed together with the code. GitHub Wiki and its sync job are retired.
 
-This is an n8n community-node package for **Craft's Connect API** — two nodes
-(Craft Documents + Craft Daily Notes) covering blocks, collections, search, tasks
-and file upload, usable as AI agent tools. Published to npm as
-`n8n-nodes-craft-apps3k`.
+| Language | Craft wiki | Repository |
+|---|---|---|
+| Deutsch | [Benutzerhandbuch](craftdocs://open?blockId=7BB4EA02-A628-45A2-BC16-539C59724748&spaceId=795ef48a-f554-14a8-afa5-a503c41068a6) | [Inhalt](de/README.md) |
+| English | [User Documentation](craftdocs://open?blockId=F04E0ABB-8657-47F4-8350-A20206E0A6FB&spaceId=795ef48a-f554-14a8-afa5-a503c41068a6) | [Contents](en/README.md) |
 
-## How this is organized
-- **Technical documentation — English** (the development language): see the
-  sidebar →
-- **End-user guide (with screenshots)** is published separately at
-  **[craft-n8n.apps3k.com](https://craft-n8n.apps3k.com)** and summarised in the
-  repo `README.md`.
+## Shared structure
 
-## Conventions
-- **`docs/wiki/` in the repo is the source of truth** — this GitHub Wiki is a
-  generated, read-only mirror. **Don't edit wiki pages directly** (the next sync
-  overwrites them); edit `docs/wiki/**` via a pull request.
-- Don't duplicate doc bodies in the task tracker (Plane Craft Nodes) — that holds *tasks*,
-  not docs.
-- **Agent-runtime instructions stay in the repo** (`CLAUDE.md` / `AGENTS.md`) and
-  stay slim; they point here for depth.
+1. Quick start / Schnellstart
+2. Connections and nodes / Verbindungen und Nodes
+3. Tasks
+4. Collections
+5. Blocks, files and workflows / Blöcke, Dateien und Workflows
+6. Troubleshooting and evidence / Fehlerbehebung und Nachweise
+7. Architecture and development / Architektur und Entwicklung
+8. Releases, contributions and documentation / Releases, Mitarbeit und Dokumentation
+
+## Maintenance
+
+1. Read both Craft editions and the corresponding repo files before changing content.
+2. Update the same chapter in both languages, retaining existing Craft block IDs.
+   `craft-pages.json` records the language roots and chapter mappings.
+3. Update the repository counterparts, README and Unreleased changelog as appropriate.
+4. Read Craft content back and compare titles, paragraphs and language links. Do not
+   report an update as published if it exists only in the repository.
+5. Link the documentation PR to Plane Craft Nodes. Never overwrite unrelated Craft edits.
+
+There is no automated publisher. Use the Craft apps3k shared MCP and the existing
+pages; do not create a replacement root. Craft access failures must be reported
+as pending publication. The screenshot guide at https://craft-n8n.apps3k.com is
+supplementary, not a separate authoritative wiki.
+
+## Initial publication
+
+2026-09-11: both initially empty roots were populated with eight chapters and
+46 content paragraphs each. Full readback matched the prepared content in both
+languages; reciprocal language links resolved to the designated block IDs.
+Tracked as [CRNO-4](https://plane.apps3k.com/apps3k/projects/dfb3aaf5-3acc-4aa7-ba52-0fd9c2589ad6/issues/88c10811-00c6-4582-b82e-9d7c9a7093c4/).
